@@ -1,0 +1,67 @@
+{
+  "name": "myDiaryApp",
+  "version": "1.0.0",
+  "description": "MyDiary is an online journal where users can pen down their thoughts and feelings.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node api/src/index.js",
+    "release": "npm run clean && npm run build-app && npm run start",
+    "clean": "rm -rf api/dist && mkdir api/dist",
+    "build": "npm run clean && npm run build-app",
+    "build-app": "babel api/src -s -d api/dist --presets=@babel/env",
+    "start": "node api/dist/index.js",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "codeClimate": "nyc --reporter=lcov npm test",
+    "test": "mocha --require @babel/register tests/test.js --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/okezieobi/MyDiaryApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/okezieobi/MyDiaryApp/issues"
+  },
+  "homepage": "https://github.com/okezieobi/MyDiaryApp#readme",
+  "devDependencies": {
+    "@babel/cli": "",
+    "@babel/core": "",
+    "@babel/node": "",
+    "@babel/preset-env": "",
+    "@babel/register": "",
+    "coveralls": "",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "mocha": "",
+    "mocha-lcov-reporter": "",
+    "nodemon": "",
+    "nyc": ""
+  },
+  "dependencies": {
+    "bcryptjs": "",
+    "bluebird": "",
+    "body-parser": "",
+    "chai": "",
+    "chai-http": "",
+    "core-js": "",
+    "cors": "",
+    "dotenv": "",
+    "express": "",
+    "jsonwebtoken": "",
+    "moment": "^2.24.0",
+    "pg": "",
+    "pg-promise": "",
+    "regenerator-runtime": "",
+    "swagger-jsdoc": "",
+    "swagger-ui-express": "",
+    "underscore": "",
+    "unique-random": ""
+  },
+  "heroku-run-build-script": true
+}
