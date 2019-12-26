@@ -1,0 +1,95 @@
+.header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  background-color: purple;
+  color: white;
+  padding: 0 10px;
+}
+
+.title-button {
+  background-color: white;
+  color: purple;
+  margin: 10px 0 10px 10px;
+  padding: 0 3vw;
+  border-radius: 2vh;
+  font-size: large;
+}
+
+
+.h1 {
+  font-size: x-large;
+}
+
+.submit-button {
+  background-color: white;
+  color: purple;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px 15px;
+  font-size: large;
+  align-self: flex-end;
+}
+
+.legend {
+  text-align: center;
+  font-size: x-large;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  padding-top: 20vh;
+}
+
+.form {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: purple;
+  color: white;
+  padding: 10px 20px;
+  width: 50vw;
+  font-size: large;
+  border-radius: 20px;
+}
+
+
+.input-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.label {
+  text-align: left;
+  margin-right: 10px;
+  flex: 0 0 81px;
+  align-self: left;
+}
+
+.breaking-space {
+  margin-right: 10px;
+  flex: 0 0 89px;
+}
+
+.input {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  color: purple;
+  font-size: large;
+}
+
+
+@media screen and (min-width: 1350px) {
+  .input {
+    width: 83%;
+  }
+
+  .submit-button {
+    width: 85%
+  }
+}
