@@ -1,6 +1,19 @@
 export default class Helpers {
-    static async sendRequest(formId, url = '', requestMethod = '') {
-        const requestData = new FormData(document.querySelector(formId));
-        return await fetch(url, { method: requestMethod, body: requestData });
+    static async authRequest(inputData={}, url = '', requestMethod = '') {
+        try {
+            const response = await fetch(url,
+                {
+                    method: requestMethod,
+                    body: JSON.stringify(inputData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                      },
+                   
+                });
+            return response.json();
+        } catch (error) {
+            return { error };
+        }
+       
     }
 }

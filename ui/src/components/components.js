@@ -12,7 +12,7 @@ const Button = (props) => <button type={props.buttonType} id={props.buttonId} cl
 const Input = (props) =>
         <div className='input-container'>
                 <label className='label'>{props.inputLabel}</label>
-                <input className='input' type={props.inputType} id={props.inputId} placeholder={props.placeholder} name={props.inputName} ></input>
+                <input className='input' onChange={props.trackValue} type={props.inputType} id={props.inputId} placeholder={props.placeholder} name={props.inputName} ></input>
         </div>
 
 
@@ -20,12 +20,6 @@ const Legend = (props) => <legend className='legend'>{props.formTitle}</legend>
 
 const SubmitButton = () => <div className='input-container'><div className='breaking-space'>&nbsp;</div><Button buttonType='submit' buttonTitle='Submit' buttonClass='submit-button' /></div>
 
-        
-/*
-const UserIndex = (props) =>
-      <div className='hide'>
-        <Header headerButtonTitle='Signout' buttonContextId='signout'/>
-        <main>{props.data}</main>
-      </div>
-*/
-export { Header, SubmitButton, Input, Legend, }
+const Error = (props) => <div className='auth-error'>{props.errorInfo}</div>
+
+export { Header, SubmitButton, Input, Legend, Error }

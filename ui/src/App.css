@@ -1,5 +1,7 @@
-.hide {
-  display: none;
+.auth-error {
+  color: orangered;
+  font-size: xx-large;
+  text-align: center;
 }
 
 
@@ -64,6 +66,14 @@
   border-radius: 20px;
 }
 
+.dashboard {
+  background-color: purple;
+  color: white;
+  padding: 10px;
+  width: 50vw;
+  font-size: large;
+  border-radius: 20px;
+}
 
 .input-container {
   display: flex;
