@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(express.static(path.join(__dirname, 'ui/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/ui/build/index.html`));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'ui/build', 'index.html'));
 });
 
 allRoutes(app);
