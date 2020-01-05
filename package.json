@@ -4,6 +4,7 @@
   "description": "MyDiary is an online journal where users can pen down their thoughts and feelings.",
   "main": "index.js",
   "scripts": {
+    "dev-server-client": "concurrently 'npm run dev' 'cd ui && npm start'",
     "dev": "nodemon --exec babel-node api/src/index.js",
     "release": "npm run clean && npm run build-app && npm run start",
     "clean": "rm -rf api/dist && mkdir api/dist",
@@ -12,7 +13,9 @@
     "start": "node api/dist/index.js",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "codeClimate": "nyc --reporter=lcov npm test",
-    "test": "mocha --require @babel/register tests/index.js --exit"
+    "test": "mocha --require @babel/register tests/index.js --exit",
+    "build-client": "cd ui && npm install && npm run build",
+    "heroku-postbuild": "npm run build-client"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,7 @@
     "@babel/node": "",
     "@babel/preset-env": "",
     "@babel/register": "",
+    "concurrently": "^5.0.1",
     "coveralls": "",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
