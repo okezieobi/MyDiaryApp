@@ -1,5 +1,6 @@
 import React from 'react';
-import Users from './components/users/index'
+import Signup from './components/users/signup';
+import UserDashboard from './components/users/dashboard';
 // import logo from './logo.svg';
 import {
   BrowserRouter as Router,
@@ -8,14 +9,17 @@ import {
 } from "react-router-dom";
 import './App.css';
 
-function App() {
+const App = () => {
   return (
     <Router>
-      <Switch >
-        <Route path='/users'>
-          <Users />
-        </Route>
-      </Switch>
+        <Switch>
+            <Route path='/signup'>
+                <Signup />
+            </Route>
+            <Route path='/dashboard'>
+                <UserDashboard />
+            </Route>
+        </Switch>
     </Router>
   );
 }
