@@ -10,10 +10,10 @@ import UserDashboard from './dashboard'
 const Users = () =>
     <Router>
         <Switch>
-            <Route path='/signup'>
+            <Route path='/users/signup'>
                 <Signup />
             </Route>
-            <Route path='/dashboard'>
+            <Route path='/users/dashboard'>
                 <UserDashboard />
             </Route>
         </Switch>
