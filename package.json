@@ -14,7 +14,7 @@
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "codeClimate": "nyc --reporter=lcov npm test",
     "test": "mocha --require @babel/register tests/index.js --exit",
-    "build-client": "cd ui && npm install && npm run build"
+    "build-client": "cd .. && cd .. && ui && npm install && npm run build"
   },
   "repository": {
     "type": "git",
