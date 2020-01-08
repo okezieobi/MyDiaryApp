@@ -99,7 +99,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username may include letters, numbers, spaces, dashes and less than 128 characters');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name is undefined or an empty string or null', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user full name is undefined or an empty string or null', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -114,7 +114,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name is not type string', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user full name is not type string', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -129,7 +129,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name must be string type');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name does not exist', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user full name does not exist', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -144,7 +144,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user first name are not letters', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user full name are not letters', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',

@@ -9,9 +9,13 @@ export default class UserController {
   static async signUp({ body }, res) {
     const createUserQuery = Queries.createClient();
     const arrayData = models.requestData(body);
-    const newUser = await database.queryOne(createUserQuery, arrayData);
-    const signUpRes = await models.responseData(newUser);
-    const newToken = await token.generate(newUser.id);
-    return protocol.auth201Res(res, signUpRes, newToken);
+    try {
+      const newUser = await database.queryOne(createUserQuery, arrayData);
+      const signUpRes = await models.responseData(newUser);
+      const newToken = await token.generate(newUser.id);
+      return protocol.auth201Res(res, signUpRes, newToken);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

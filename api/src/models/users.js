@@ -4,10 +4,10 @@ import bcrypt from '../helpers/bcrypt';
 
 export default class UserModel {
   static requestData({
-    fullName, email, password, username,
+    fullName = '', email = '', password = '', username = '',
   }) {
-    return [numbers.uniqueIds(), String(fullName), String(email),
-      bcrypt.hash(password), String(username)];
+    return [numbers.uniqueIds(), fullName, email,
+      bcrypt.hash(password), username];
   }
 
   static responseData({

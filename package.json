@@ -65,7 +65,8 @@
     "swagger-jsdoc": "",
     "swagger-ui-express": "",
     "underscore": "",
-    "unique-random": ""
+    "unique-random": "",
+    "validator": "^12.1.0"
   },
   "heroku-run-build-script": true
 }
