@@ -1,5 +1,5 @@
 export default class Helpers {
-    static async authRequest(inputData={}, url = '', requestMethod = '') {
+    static async authRequest(inputData = {}, url = '', requestMethod = '') {
         try {
             const response = await fetch(url,
                 {
@@ -12,8 +12,12 @@ export default class Helpers {
                 });
             return response.json();
         } catch (error) {
-            return { error };
+            throw new Error(error);
         }
        
+    }
+
+    static loadPage(path = '') {
+        return window.location = path;
     }
 }

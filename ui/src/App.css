@@ -9,23 +9,60 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  background-color: purple;
+  background-color: blue;
+  color: white;
+  padding: 0 10px;
+}
+
+.home-header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  background-color: blue;
   color: white;
   padding: 0 10px;
 }
 
 .title-button {
   background-color: white;
-  color: purple;
+  color: blue;
   margin: 10px 0 10px 10px;
   padding: 0 3vw;
   border-radius: 2vh;
   font-size: large;
+  border: none;
 }
 
-.title-button:hover, .submit-button:hover {
+.home-title-button {
+  background-color: white;
+  color: blue;
+  margin: 10px 0 10px 10px;
+  padding: 0 3vw;
+  border-radius: 2vh;
+  font-size: large;
+  border: none;
+}
+
+.home-button {
+  background-color: blue;
+  color: white;
+  margin: 10vh 10px 0 10px;
+  padding: 3vh 3vw;
+  border-radius: 2vh;
+  font-size: large;
+  width: 30vw;
+  align-self: center;
+  border: none;
+}
+
+.home-intro {
+  color: black;
+  text-align: center;
+}
+
+.title-button:hover, .submit-button:hover, .home-button:hover , .home-title-button:hover {
   cursor: pointer;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 
@@ -35,13 +72,14 @@
 
 .submit-button {
   background-color: white;
-  color: purple;
+  color: blue;
   border-radius: 10px;
   width: 100%;
   font-size: 15px;
   padding: 10px 15px;
   font-size: large;
   align-self: flex-end;
+  border: none;
 }
 
 .legend {
@@ -55,10 +93,28 @@
   padding-top: 20vh;
 }
 
+.home-main {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 20vh 10vw 0 10vw;
+}
+
+.backgroundOne {
+  background-image: url('./icons/undraw_Bibliophile_hwqc.svg');
+  background-size: cover;
+  height: 100vh;
+}
+
+.backgroundTwo {
+  background-image: url('./icons/artOne.svg');
+  background-size: cover;
+  height: 100vh;
+}
+
 .form {
   display: flex;
   flex-flow: column nowrap;
-  background-color: purple;
+  background-color: blue;
   color: white;
   padding: 10px 20px;
   width: 50vw;
@@ -67,7 +123,7 @@
 }
 
 .dashboard {
-  background-color: purple;
+  background-color: blue;
   color: white;
   padding: 10px;
   width: 50vw;
@@ -99,7 +155,7 @@
   padding: 10px;
   border-radius: 5px;
   width: 100%;
-  color: purple;
+  color: blue;
   font-size: large;
 }
 
@@ -113,3 +169,13 @@
     width: 85%
   }
 }
+
+@media screen and (max-width: 400px) {
+  .home-title-button {
+    padding: 20px 3vw;
+  }
+
+  .home-header {
+    justify-content: center;
+  }
+  }
