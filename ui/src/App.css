@@ -41,6 +41,7 @@
   border-radius: 2vh;
   font-size: large;
   border: none;
+  outline: none;
 }
 
 .home-button {
@@ -53,6 +54,7 @@
   width: 30vw;
   align-self: center;
   border: none;
+  outline: none;
 }
 
 .home-intro {
@@ -80,6 +82,7 @@
   font-size: large;
   align-self: flex-end;
   border: none;
+  outline: none;
 }
 
 .legend {

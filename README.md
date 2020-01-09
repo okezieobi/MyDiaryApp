@@ -7,6 +7,9 @@ https://diary-app-react-node.herokuapp.com/
 ## User stories
 https://www.pivotaltracker.com/projects/2424711
 
+## Stack
+ReactJS & ExpressJS/NodeJS
+
 Travis [![Build Status](https://travis-ci.com/okezieobi/MyDiaryApp.svg?branch=develop)](https://travis-ci.com/okezieobi/MyDiaryApp)
 
 Coveralls [![Coverage Status](https://coveralls.io/repos/github/okezieobi/MyDiaryApp/badge.svg?branch=develop)](https://coveralls.io/github/okezieobi/MyDiaryApp?branch=develop)
