@@ -9,6 +9,7 @@ export default class Password {
     }
   }
 
+  /*
   static compare(hashedPassword = '', password = '') {
     try {
       return bcrypt.compareSync(password, hashedPassword);
@@ -16,4 +17,5 @@ export default class Password {
       throw new Error(error);
     }
   }
+  */
 }

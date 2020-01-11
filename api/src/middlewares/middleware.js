@@ -3,4 +3,3 @@ export default class Middleware {
     return methods.map((method) => (...args) => { method(...args); });
   }
 }
-

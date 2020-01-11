@@ -15,6 +15,7 @@ export default class Token {
     }
   }
 
+  /*
   static verify(token = '') {
     try {
       return jwt.verify(token, process.env.SECRET, (err, decoded) => decoded || err);
@@ -22,4 +23,5 @@ export default class Token {
       throw new Error(error);
     }
   }
+  */
 }
