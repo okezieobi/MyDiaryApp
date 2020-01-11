@@ -8,8 +8,8 @@ const swaggerDefinition = {
     description: 'This is the REST API for a simple diary web app', // short description of the app
   },
   servers: [
-    { url: 'https://diary-app-react-node.herokuapp.com//api/v1', description: 'Deployed server' },
-    { url: 'http://localhost:3000/api/v1', description: 'Local development/testing server' },
+    { url: 'https://diary-app-react-node.herokuapp.com/api/v1', description: 'Deployed server' },
+    { url: 'http://localhost:5000/api/v1', description: 'Local development/testing server' },
   ],
   components: {
     securitySchemes: {
@@ -27,7 +27,7 @@ const options = {
   // import swaggerDefinitions
   swaggerDefinition,
   // path to the API docs
-  apis: ['./doc/**/*.yaml'],
+  apis: ['./docs/**/*.yaml'],
 };
 // initialize swagger-jsdoc
 export default swaggerJSDoc(options);

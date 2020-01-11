@@ -1,12 +1,12 @@
 import React from 'react';
 
 const Header = (props) =>
-        <header className='header'>
+        <header className={props.headerClass}>
                 <h1 className='h1'>My Diary</h1>
-                <Button buttonType='button' buttonClass='title-button' buttonTitle={props.headerButtonTitle} buttonId={props.buttonContextId} />
+                <Button click={props.headerClick} buttonType='button' buttonClass={props.headerButtonClass} buttonTitle={props.headerButtonTitle} buttonId={props.buttonContextId} />
         </header>
 
-const Button = (props) => <button type={props.buttonType} id={props.buttonId} className={props.buttonClass}>{props.buttonTitle}</button>
+const Button = (props) => <button onClick={props.click} onSubmit={props.submit} type={props.buttonType} id={props.buttonId} className={props.buttonClass}>{props.buttonTitle}</button>
 
 
 const Input = (props) =>
@@ -22,4 +22,4 @@ const SubmitButton = () => <div className='input-container'><div className='brea
 
 const Error = (props) => <div className='auth-error'>{props.errorInfo}</div>
 
-export { Header, SubmitButton, Input, Legend, Error }
+export { Header, SubmitButton, Input, Legend, Error, Button }

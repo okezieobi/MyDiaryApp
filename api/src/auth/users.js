@@ -11,8 +11,12 @@ export default class UserAuth {
   static async authEmailUsername({ body }) {
     const { username, email } = body;
     const findUserQuery = Queries.findUserByEmailOrUsername();
-    const user = await database.queryOneORNone(findUserQuery, [email, username]);
-    return user;
+    try {
+      const user = await database.queryOneORNone(findUserQuery, [email, username]);
+      return user;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   static async signUp(req, res, next) {

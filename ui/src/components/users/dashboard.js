@@ -12,7 +12,7 @@ export default class UserDashboard extends React.Component {
     render() {
         return (
             <div className=''>
-                <Header headerButtonTitle='Signout' buttonContextId='signout' />
+                <Header headerClass='header' headerButtonClass='title-button' headerButtonTitle='Signout' buttonContextId='signout' />
                 <main className='main'>
                     <section className='dashboard'>{this.state.token}</section>
                 </main>

@@ -46,8 +46,8 @@ export default class Signup extends React.Component {
 
         if (isAuthenticated) return <Redirect to='/dashboard' push={true} />
         return (
-            <div className=''>
-                <Header headerButtonTitle='Signin' buttonContextId='signin' />
+            <div className='backgroundTwo'>
+                <Header headerClass="header" headerButtonTitle='Signin' headerButtonClass='title-button' buttonContextId='signin' />
                 <Error errorInfo={error} />
                 <main className='main'>
                     <form onSubmit={this.handleSubmit} id='signup' className='form'>
