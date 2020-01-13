@@ -12,7 +12,7 @@ export default class Errors {
   }
 
   static notPassword() {
-    return 'Password must be eight characters minimum, 128 characters maximum, at least one uppercase letter, one lowercase letter, one number and one special character';
+    return 'Password must be eight characters minimum, 128 characters maximum';
   }
 
   static tokenIsRequired() {
