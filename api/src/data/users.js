@@ -1,21 +1,23 @@
 import protocol from '../helpers/response';
 import testRequest from '../helpers/tests';
 
-export default class UserValidator {
+class UserValidator {
   constructor() {
     this.verifySignup = this.verifySignup.bind(this);
     this.validatePassword = this.validatePassword.bind(this);
+    this.verifySignin = this.verifySignin.bind(this);
+    this.validateRequest = this.validateRequest.bind(this);
   }
 
-  static verifySignup({ body }, res, next) {
+  verifySignup({ body }, res, next) {
     const {
       fullName, email, username,
     } = body;
     const fullNameFalseErr = testRequest.getFalseValue(fullName, 'Full name');
     const emailFalseErr = testRequest.getFalseValue(email, 'Email');
     const usernameFalseErr = testRequest.getFalseValue(username, 'Username');
-    const findFalseErr = testRequest.findError(fullNameFalseErr, emailFalseErr, usernameFalseErr);
-    if (findFalseErr) return protocol.err400Res(res, findFalseErr);
+    this.findFalseErr = testRequest.findError(fullNameFalseErr, emailFalseErr, usernameFalseErr);
+    if (this.findFalseErr) return protocol.err400Res(res, this.findFalseErr);
     const fullNameErrTest = testRequest.validateVarChar(fullName, 'Full name');
     const emailErrTest = testRequest.validateEmail(email);
     const usernameErrTest = testRequest.validateVarChar(username, 'Username');
@@ -24,12 +26,26 @@ export default class UserValidator {
     return next();
   }
 
-  static validatePassword({ body }, res, next) {
+  validateRequest(prop, propTitle, patternTest) {
+    this.falseError = testRequest.getFalseValue(prop, propTitle);
+    if (this.falseError) return this.falseError;
+    return testRequest[patternTest](prop, propTitle);
+  }
+
+  validatePassword({ body }, res, next) {
     const { password } = body;
-    const passwordFalseErr = testRequest.getFalseValue(password, 'Password');
-    if (passwordFalseErr) return protocol.err400Res(res, passwordFalseErr);
-    const passwordPatternErr = testRequest.validatePassword(password);
-    if (passwordPatternErr) return protocol.err400Res(res, passwordPatternErr);
-    return next();
+    const passwordErr = this.validateRequest(password, 'Password', 'validatePassword');
+    if (passwordErr) protocol.err400Res(res, passwordErr);
+    else next();
+  }
+
+  verifySignin({ body }, res, next) {
+    const { user } = body;
+    const userErr = this.validateRequest(user, 'Email or username', 'validateVarChar');
+    if (userErr) protocol.err400Res(res, userErr);
+    else next();
   }
 }
+
+const userValidator = new UserValidator();
+export default userValidator;

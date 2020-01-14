@@ -10,4 +10,8 @@ export default class Users {
   static findUserByEmailOrUsername() {
     return 'SELECT * FROM users WHERE email = $1 OR username = $2';
   }
+
+  static findUserWithUsernameOrEmail() {
+    return 'SELECT * FROM users WHERE email = $1 OR username = $1';
+  }
 }

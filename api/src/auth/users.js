@@ -8,25 +8,38 @@ import Queries from '../queries/users';
 //  import jwt from '../helpers/jwt';
 import bcrypt from '../helpers/bcrypt';
 
-export default class UserAuth {
+class UserAuth {
   constructor() {
     this.authSignup = this.authSignup.bind(this);
     this.verifyPassword = this.verifyPassword.bind(this);
+    this.authSignin = this.authSignin.bind(this);
   }
 
-  static async authSignup({ body }, res, next) {
+  async authSignup({ body }, res, next) {
     try {
       const { username, email } = body;
       const findUserQuery = Queries.findUserByEmailOrUsername();
-      const user = await database.queryOneORNone(findUserQuery, [email, username]);
-      if (user) return protocol.err400Res(res, literalErrors.userExists());
+      this.newUser = await database.queryOneORNone(findUserQuery, [email, username]);
+      if (this.newUser) return protocol.err400Res(res, literalErrors.userExists());
       return next();
     } catch (error) {
       return logger.displayErrors(error);
     }
   }
 
-  static async verifyPassword({ body }, res, next) {
+  async authSignin({ body }, res, next) {
+    try {
+      const { user } = body;
+      const findUserQuery = Queries.findUserWithUsernameOrEmail();
+      this.verifyUser = await database.queryOneORNone(findUserQuery, [user]);
+      if (!this.verifyUser) return protocol.err404Res(res, literalErrors.userNotExists());
+      return next();
+    } catch (error) {
+      return logger.displayErrors(error);
+    }
+  }
+
+  async verifyPassword({ body }, res, next) {
     const { password } = body;
     const { verifyUser } = this;
     try {
@@ -38,3 +51,6 @@ export default class UserAuth {
     }
   }
 }
+
+const authUser = new UserAuth();
+export default authUser;
