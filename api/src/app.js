@@ -6,7 +6,10 @@ import path from 'path';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './configs/swagger';
+import CustomErrs from './errors/custom';
 import allRoutes from './routes';
+
+const { handleClientErr, handleServerErr } = CustomErrs;
 
 const app = express();
 
@@ -22,5 +25,7 @@ app.get('/*', (req, res) => {
 });
 
 allRoutes(app);
+
+app.use(handleClientErr, handleServerErr);
 
 export default app;

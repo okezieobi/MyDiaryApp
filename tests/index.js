@@ -4,18 +4,19 @@ import chai, {
   expect,
 } from 'chai';
 import chaiHttp from 'chai-http';
+import UserHelper from '../api/src/helpers/users';
 import app from '../api/src';
-import pool from '../api/src/db/pgConnect';
-import seeder from '../api/src/seeders/seeder';
-import token from '../api/src/helpers/jwt';
+import { userSeeds } from '../mocks/index';
+import token from '../api/src/utils/jwt';
 
 class Test {
-  static deleteData() {
-    return seeder.deleteAll;
+  static async deleteData() {
+    await UserHelper.destroy({ truncate: true });
   }
 
-  static users() {
-    return seeder.users.insertData;
+  static async users() {
+    await UserHelper.createUser(userSeeds[0]);
+    await UserHelper.createUser(userSeeds[1]);
   }
 
   static generateToken(id) {
@@ -27,7 +28,7 @@ class Test {
   }
 
   static returnRandomValue(...values) {
-    return values[this.getRandomArrayIndex(values)];
+    return values[Test.getRandomArrayIndex(values)];
   }
 
   static createVarChars(length) {
@@ -41,18 +42,15 @@ class Test {
   }
 
   static createEmailVarChar(userLength, domainLength) {
-    return `${this.createVarChars(userLength)}@${this.createVarChars(domainLength)}.${this.createVarChars(3)}`;
+    return `${Test.createVarChars(userLength)}@${Test.createVarChars(domainLength)}.${Test.createVarChars(3)}`;
   }
 }
-
-require('./users/signup');
-require('./users/signin');
 
 export {
   expect,
   chai,
   chaiHttp,
   app,
-  pool,
   Test,
+  userSeeds,
 };

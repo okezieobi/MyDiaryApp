@@ -11,14 +11,14 @@ const Button = (props) => <button onClick={props.click} onSubmit={props.submit} 
 
 const Input = (props) =>
         <div className='input-container'>
-                <label className='label'>{props.inputLabel}</label>
-                <input className='input' onChange={props.trackValue} type={props.inputType} id={props.inputId} placeholder={props.placeholder} name={props.inputName} ></input>
+                <label className={props.labelClass}>{props.inputLabel}</label>
+                <input className={props.inputClass} onChange={props.trackValue} type={props.inputType} id={props.inputId} placeholder={props.placeholder} name={props.inputName} ></input>
         </div>
 
 
 const Legend = (props) => <legend className='legend'>{props.formTitle}</legend>
 
-const SubmitButton = () => <div className='input-container'><div className='breaking-space'>&nbsp;</div><Button buttonType='submit' buttonTitle='Submit' buttonClass='submit-button' /></div>
+const SubmitButton = (props) => <div className='input-container'><div className={props.submitContainerClass}>&nbsp;</div><Button buttonType='submit' buttonTitle='Submit' buttonClass={props.submitButtonClass} /></div>
 
 const Error = (props) => <div className='auth-error'>{props.errorInfo}</div>
 

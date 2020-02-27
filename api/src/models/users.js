@@ -1,24 +1,47 @@
-/* eslint-disable camelcase */
-import numbers from '../helpers/uniqueNos';
-import bcrypt from '../helpers/bcrypt';
+import dotenv from 'dotenv';
+import { Sequelize, DataTypes, Model } from 'sequelize';
 
-export default class UserModel {
-  static requestData({
-    fullName = '', email = '', password = '', username = '',
-  }) {
-    return [numbers.uniqueIds(), fullName, email,
-      bcrypt.hash(password), username];
-  }
+dotenv.config();
 
-  static responseData({
-    id, full_name, username, email, type,
-  }) {
-    return {
-      id: parseInt(id, 10),
-      fullName: String(full_name),
-      userName: String(username),
-      email: String(email),
-      type: String(type),
-    };
-  }
-}
+const sequelize = new Sequelize(process.env.DATABASE_URL || process.env.POSTGRE_URL);
+
+class User extends Model {}
+
+User.init({
+  id: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    primaryKey: true,
+  },
+  fullName: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+  },
+  username: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+    unique: true,
+  },
+  hashedPassword: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  type: {
+    type: DataTypes.ENUM,
+    values: ['Client', 'Admin'],
+    defaultValue: 'Client',
+  },
+},
+{
+  sequelize,
+  modelName: 'User',
+});
+
+(async () => { await User.sync({ force: true }); })();
+
+export default User;

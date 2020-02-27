@@ -105,4 +105,4 @@ dist
 
 node_modules
 .env
-api/src/db/role.sql
+api/src/role.sql

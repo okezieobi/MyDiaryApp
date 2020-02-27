@@ -1,46 +1,24 @@
-import database from '../db/pgConnect';
-import token from '../helpers/jwt';
-import authenticateUsers from '../auth/users';
-import protocol from '../helpers/response';
-import models from '../models/users';
-import Queries from '../queries/users';
-import logger from '../helpers/logger';
+/* eslint-disable no-underscore-dangle */
+import Token from '../utils/jwt';
+import HttpResponse from '../utils/response';
+import UserHelper from '../helpers/users';
 
-class UserController {
-  constructor() {
-    this.addUser = this.addUser.bind(this);
-    this.sendAuthResponse = this.sendAuthResponse.bind(this);
-  }
+const { auth200Res, auth201Res } = HttpResponse;
+const { createUser, prepareResponse } = UserHelper;
+const { generate } = Token;
 
-  async addUser({ body }, res, next) {
-    const createUserQuery = Queries.createClient();
-    const arrayData = models.requestData(body);
+export default class UserController {
+  static async addUser({ body }, res, next) {
     try {
-      this.newUser = await database.queryOne(createUserQuery, arrayData);
-      return next();
+      const newUserRes = await createUser(body);
+      auth201Res(res, newUserRes, generate(newUserRes.id));
     } catch (error) {
-      return logger.displayErrors(error);
+      next(error);
     }
   }
 
-  async sendAuthResponse(req, res) {
-    const { newUser } = this;
-    const { verifyUser } = authenticateUsers;
-    try {
-      if (verifyUser) {
-        const signInRes = await models.responseData(verifyUser);
-        const signinToken = await token.generate(verifyUser.id);
-        protocol.auth200Res(res, signInRes, signinToken);
-      } else {
-        const signUpRes = await models.responseData(newUser);
-        const signupToken = await token.generate(newUser.id);
-        protocol.auth201Res(res, signUpRes, signupToken);
-      }
-    } catch (error) {
-      throw logger.displayErrors(error);
-    }
+  static sendAuthRes(req, res) {
+    const { locals: { registeredUser } } = res;
+    return auth200Res(res, prepareResponse(registeredUser), generate(registeredUser._id));
   }
 }
-
-const userController = new UserController();
-export default userController;

@@ -62,7 +62,7 @@
   text-align: center;
 }
 
-.title-button:hover, .submit-button:hover, .home-button:hover , .home-title-button:hover {
+.title-button:hover, .signup-submit-button:hover, .signin-submit-button:hover, .home-button:hover , .home-title-button:hover {
   cursor: pointer;
   opacity: 0.8;
 }
@@ -72,7 +72,20 @@
   font-size: xx-large;
 }
 
-.submit-button {
+.signin-submit-button {
+  background-color: white;
+  color: blue;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px 15px;
+  font-size: large;
+  align-self: flex-end;
+  border: none;
+  outline: none;
+}
+
+.signup-submit-button {
   background-color: white;
   color: blue;
   border-radius: 10px;
@@ -104,12 +117,18 @@
 
 .backgroundOne {
   background-image: url('./icons/undraw_Bibliophile_hwqc.svg');
-  background-size: cover;
-  height: 100vh;
 }
 
 .backgroundTwo {
   background-image: url('./icons/artOne.svg');
+}
+
+.backgroundThree {
+  background-image: url('./icons/undraw_personal_notebook_sobb.svg');
+}
+
+
+.backgroundProps {
   background-size: cover;
   height: 100vh;
 }
@@ -141,19 +160,17 @@
   margin: 10px 0;
 }
 
-.label {
-  text-align: left;
+.signup-breaking-space {
   margin-right: 10px;
-  flex: 0 0 81px;
-  align-self: left;
+  flex: 0 0 85px;
 }
 
-.breaking-space {
+.signin-breaking-space {
   margin-right: 10px;
-  flex: 0 0 89px;
+  flex: 0 0 109px;
 }
 
-.input {
+.signup-input, .signin-input {
   border: none;
   padding: 10px;
   border-radius: 5px;
@@ -164,12 +181,20 @@
 
 
 @media screen and (min-width: 1350px) {
-  .input {
+  .signup-input {
     width: 83%;
   }
 
-  .submit-button {
-    width: 85%
+  .signin-input {
+    width: 76%;
+  }
+
+  .signup-submit-button {
+    width: 86%;
+  }
+  
+  .signin-submit-button {
+    width: 79%;
   }
 }
 
@@ -181,4 +206,10 @@
   .home-header {
     justify-content: center;
   }
-  }
+}
+
+@media screen and (max-width: 1100px) {
+ .form {
+   width: 80vw;
+ }
+}

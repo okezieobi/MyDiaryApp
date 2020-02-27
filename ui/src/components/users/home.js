@@ -1,12 +1,12 @@
 import React from 'react';
 import { Header, Button } from '../components';
-import Helpers from '../helpers';
+import Helpers from '../../helpers/helper';
 
 const redirectToSignup = () => Helpers.loadPage('/signup');
 const redirectToSignin = () => Helpers.loadPage('/signin');
 
 const Home = () => 
-            <div className='backgroundOne'>
+            <div className='backgroundOne backgroundProps'>
                 <Header headerClick={redirectToSignin} headerClass='home-header' headerButtonClass='home-title-button' headerButtonTitle='Have an account ? Signin' />
                 <main className='home-main'>
                     <h3 className='home-intro' >Welcome to My Diary, an safe, fast and reliable online journal to pen your thoughts</h3>
