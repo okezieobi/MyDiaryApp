@@ -35,13 +35,13 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('data').to.be.an('object');
     expect(response.body.data).to.have.property('id').to.be.a('string');
     expect(response.body.data).to.have.property('fullName').to.be.a('string').to.equal(testData.fullName);
-    expect(response.body.data).to.have.property('userName').to.be.a('string').to.equal(testData.username);
+    expect(response.body.data).to.have.property('username').to.be.a('string').to.equal(testData.username);
     expect(response.body.data).to.have.property('email').to.be.a('string').to.equal(testData.email);
     expect(response.body.data).to.have.property('type').to.be.a('string').to.equal('Client');
     expect(response.body.data).to.have.property('createdOn').to.be.a('string');
     expect(response.body).to.have.property('token').to.be.a('string');
     expect(response.header).to.have.property('token').to.be.a('string');
-  }).timeout(5000);
+  }).timeout(3000);
 
   it('Should NOT create a User at "/api/v1/auth/signup" if username is a falsy value', async () => {
     const testData = {
@@ -58,7 +58,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if username is not sent', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if username is not sent in request', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -103,7 +103,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user full name does not exist', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user full name is not sent in request', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -148,7 +148,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email does not exist', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user email is not sent in request', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -190,7 +190,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');
     expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('User exists, please sign in with email or username');
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('User exists, user should please sign in with email or username');
   });
 
   it('Should NOT create a User at "/api/v1/auth/signup" if user password is a falsy value', async () => {
@@ -208,7 +208,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password is required');
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password does not exist', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if user password is not sent in request', async () => {
     const testData = {
       fullName: 'Frank',
       email: 'mama@mail.com',
@@ -230,7 +230,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
       password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.password = returnRandomValue(createVarChars(200), 'ddd');
+    testData.password = returnRandomValue(createVarChars(200), createVarChars(4));
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');

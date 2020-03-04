@@ -1,23 +1,24 @@
-import dotenv from 'dotenv';
-import { Sequelize } from 'sequelize';
+import DbConnect from './db/database';
 import app from './app';
 import Logger from './utils/logger';
+import Env from './configs/env';
 
 const { infoLog, errorLog } = new Logger();
+const { appPort } = new Env();
+const { sequelize } = new DbConnect();
 
-dotenv.config();
-
-(async () => {
+const startApp = async () => {
   try {
-    const sequelize = new Sequelize(process.env.DATABASE_URL || process.env.POSTGRE_URL);
     await sequelize.authenticate();
-    const port = process.env.PORT || '5000';
+    const port = appPort || '5000';
     app.listen(port, () => {
-      infoLog.info(`Connected to database, app is live and listening on port ${port}!`);
+      infoLog.info(`Connected to database, app is live and listening on port ${appPort}!`);
     });
-  } catch (error) {
-    throw errorLog.error(error);
+  } catch (err) {
+    throw errorLog.error(err);
   }
-})();
+};
+
+startApp();
 
 export default app;

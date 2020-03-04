@@ -1,20 +1,19 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import Env from '../configs/env';
 
 const { sign, verify } = jwt;
-
-dotenv.config();
+const { jwtSecret } = new Env();
 
 export default class Token {
   static generate(id = 0) {
     return sign({
       userId: id,
-    }, process.env.SECRET, {
+    }, jwtSecret, {
       expiresIn: 24 * 60 * 60,
     });
   }
 
   static verify(token = '') {
-    return verify(token, process.env.SECRET);
+    return verify(token, jwtSecret);
   }
 }
