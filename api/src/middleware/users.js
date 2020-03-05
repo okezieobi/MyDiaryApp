@@ -3,7 +3,7 @@ import UserAuth from '../auth/users';
 import MiddlewareHelper from './middleware';
 
 const { validatePassword, validateNewUser, validateRegisteredUser } = UserValidator;
-const { verifyWithUnique, findByUnique, verifyPassword } = UserAuth;
+const { verifyWithUnique, findByUnique } = UserAuth;
 const { routeCallbacks } = MiddlewareHelper;
 
 export default class UserMiddleware {
@@ -12,7 +12,6 @@ export default class UserMiddleware {
   }
 
   static signin() {
-    return routeCallbacks(validateRegisteredUser, validatePassword,
-      findByUnique, verifyPassword);
+    return routeCallbacks(validateRegisteredUser, validatePassword, findByUnique);
   }
 }

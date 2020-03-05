@@ -2,13 +2,11 @@ import { Op } from 'sequelize';
 import CustomErrs from '../errors/custom';
 import UserModel from '../models/user';
 import Jwt from '../utils/jwt';
-import Bcrypt from '../utils/bcrypt';
 import Validator from '../utils/coreValidator';
 import DbConnect from '../db/database';
 
-const { compare } = Bcrypt;
 const {
-  userExists, userNotExists, wrongPassword, wrongToken,
+  userExists, userNotExists, wrongToken,
 } = new CustomErrs();
 const { verify } = Jwt;
 const { checkUUID } = Validator;
@@ -18,16 +16,15 @@ const { sequelize } = new DbConnect();
 export default class UserAuth {
   static async verifyWithUnique({ body: { username = '', email = '' } }, res, next) {
     try {
-      const result = await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         const data = await UserModel.findOne({
           where: {
             [Op.or]: [{ username }, { email }],
           },
         }, { transaction: t });
-        return data;
+        if (data) throw new CustomErrs(400, userExists);
+        else next();
       });
-      if (result) throw new CustomErrs(400, userExists);
-      else next();
     } catch (error) {
       next(error);
     }
@@ -35,29 +32,22 @@ export default class UserAuth {
 
   static async findByUnique({ body: { user = '' } }, res, next) {
     try {
-      const result = await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         const data = await UserModel.findOne({
           where: {
             [Op.or]: [{ username: user }, { email: user }],
           },
         }, { transaction: t });
-        return data;
+        if (data) {
+          res.locals.registeredUser = data;
+          next();
+        } else {
+          throw new CustomErrs(404, userNotExists);
+        }
       });
-      if (result) {
-        res.locals.registeredUser = result;
-        next();
-      } else {
-        throw new CustomErrs(404, userNotExists);
-      }
     } catch (error) {
       next(error);
     }
-  }
-
-  static verifyPassword({ body: { password = '' } }, { locals: { registeredUser: { hashedPassword } } }, next) {
-    const verifyPassword = compare(hashedPassword, password);
-    if (verifyPassword) next();
-    else throw new CustomErrs(400, wrongPassword);
   }
 
   static verifyToken({ headers: { token = '' } }, res, next) {
@@ -74,16 +64,15 @@ export default class UserAuth {
   static async authenticateAll(req, res, next) {
     try {
       const { locals: { userId } } = res;
-      const authUser = await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         const data = await UserModel.findByPk(userId, { transaction: t });
-        return data;
+        if (data) {
+          res.locals.authUser = data;
+          next();
+        } else {
+          throw new CustomErrs(401, wrongToken);
+        }
       });
-      if (authUser) {
-        res.locals.authUser = authUser;
-        next();
-      } else {
-        throw new CustomErrs(401, wrongToken);
-      }
     } catch (error) {
       next(error);
     }

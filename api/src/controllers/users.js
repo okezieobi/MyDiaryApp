@@ -2,28 +2,33 @@ import DbConnect from '../db/database';
 import Token from '../utils/jwt';
 import HttpResponse from '../utils/response';
 import UserModel from '../models/user';
+import Bcrypt from '../utils/bcrypt';
+import CustomErrs from '../errors/custom';
 
 const { auth200Res, auth201Res } = HttpResponse;
 const { prepareResponse } = UserModel;
 const { sequelize } = new DbConnect();
 const { generate } = Token;
+const { compare } = Bcrypt;
+const { wrongPassword } = new CustomErrs();
 
 export default class UserController {
   static async addUser({ body }, res, next) {
     try {
       const reqData = UserModel.prepareRequest(body);
-      const newUserRes = await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         const data = await UserModel.create(reqData, { transaction: t });
-        return data;
+        auth201Res(res, prepareResponse(data), generate(data.id));
       });
-      auth201Res(res, prepareResponse(newUserRes), generate(newUserRes.id));
     } catch (error) {
       next(error);
     }
   }
 
-  static sendAuthRes(req, res) {
+  static verifyPassword({ body: { password = '' } }, res) {
     const { locals: { registeredUser } } = res;
-    auth200Res(res, prepareResponse(registeredUser), generate(registeredUser.id));
+    const verifyPassword = compare(registeredUser.hashedPassword, password);
+    if (!verifyPassword) throw new CustomErrs(400, wrongPassword);
+    else auth200Res(res, prepareResponse(registeredUser), generate(registeredUser.id));
   }
 }
