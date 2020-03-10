@@ -1,72 +1,45 @@
-import React from 'react';
-import fetch from '../../helpers/fetch';
-import helpers from '../../helpers/helper';
-import { Header, SubmitButton, Input, Legend, Error } from '../components';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
+import { AuthRequest, SignupComponent, HandleInputChange } from '../components';
 import { Redirect } from 'react-router-dom';
 
-export default class Signup extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            fullName: '',
-            username: '',
-            email: '',
-            password: '',
-            isAuthenticated: false,
-        }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.redirectToSignin = this.redirectToSignin.bind(this);
-    }
+const Signup = () => {
+    const history = useHistory();
+    const [isAuthenticated, setAuth] = useState(false);
+    const [error, setError] = useState(null);
+    const [fullName, setFullName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    handleInputChange(event) {
-        this.setState({ [event.target.name]: event.target.value })
+    const handleFullNameChange = (event) => HandleInputChange(event, setFullName);
+    const handleUsernameChange = (event) => HandleInputChange(event, setUsername);
+    const handleEmailChange = (event) => HandleInputChange(event, setEmail);
+    const handlePasswordChange = (event) => HandleInputChange(event, setPassword);
 
-    }
-
-    async handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const { error, token } = await fetch.authRequest({
-            fullName: this.state.fullName,
-            username: this.state.username,
-            email: this.state.email,
-            password: this.state.password,
+        const { error, token } = await AuthRequest({
+            fullName: fullName,
+            username: username,
+            email: email,
+            password: password,
         }, '/api/v1/auth/signup');
         if (error) {
-            this.setState({
-                error,
-            });
+            setError(error);
         } else {
             localStorage.setItem('token', token);
-            this.setState({ isAuthenticated: true });
+            setAuth(true);
         }
     }
 
-    redirectToSignin() {
-        return helpers.loadPage('/signin')
-    }
-
-    render() {
-        const { isAuthenticated, error } = this.state;
+    const signinLink = () => history.push('/signin');
 
         if (isAuthenticated) return <Redirect to='/dashboard' push={true} />
-        return (
-            <div className='backgroundTwo backgroundProps'>
-                <Header headerClick={this.redirectToSignin} headerClass="header" headerButtonTitle='Signin' headerButtonClass='title-button' buttonContextId='signin' />
-                <Error errorInfo={error} />
-                <main className='main'>
-                    <form onSubmit={this.handleSubmit} id='signup' className='form'>
-                        <Legend formTitle='Sign up' />
-                        <Input inputClass='signup-input' trackValue={this.handleInputChange} inputLabel='Full Name' inputType='text' inputId='fullName' placeholder='Full Name' inputName='fullName' />
-                        <Input inputClass='signup-input' trackValue={this.handleInputChange} inputLabel='Username' inputType='text' inputId='username' placeholder='Username' inputName='username' />
-                        <Input inputClass='signup-input' trackValue={this.handleInputChange} inputLabel='Email' inputType='text' inputId='email' placeholder='Email' inputName='email' />
-                        <Input inputClass='signup-input' trackValue={this.handleInputChange} inputLabel='Password' inputType='password' inputId='password' placeholder='Password' inputName='password' />
-                        <SubmitButton submitContainerClass='signup-breaking-space' submitButtonClass='signup-submit-button' />
-                    </form>
-                </main>
-            </div>
-        )
-
-    }
+        return <SignupComponent signinLink={signinLink}
+        error={error} handleSubmit={handleSubmit} handleFullNameChange={handleFullNameChange}
+        handleEmailChange={handleEmailChange} handleUsernameChange={handleUsernameChange}
+        handlePasswordChange={handlePasswordChange} />
 }
+
+export default Signup;

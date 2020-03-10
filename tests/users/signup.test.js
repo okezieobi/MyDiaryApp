@@ -183,9 +183,22 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
       fullName: 'Frank',
       email: 'mama@mail.com',
       password: '1234AOdBcd!',
+      username: 'Okezieobi',
+    };
+    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
+    expect(response.body).to.have.property('error').to.be.a('string').to.equal('User exists, user should please sign in with email or username');
+  });
+
+  it('Should NOT create a User at "/api/v1/auth/signup" if user username has already been registered', async () => {
+    const testData = {
+      fullName: 'Frank',
+      email: 'mamapapa@mail.com',
+      password: '1234AOdBcd!',
       username: 'Obiedere',
     };
-    testData.email = 'mama@mail.com';
     const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.an('object');
