@@ -26,11 +26,11 @@ const AuthRequest = (data = {}, url = '') => FetchApi(data, url, 'POST', null);
 
 const Header = (props) =>
         <header className={props.headerClass}>
-                <h1 header='title' className='h1'>My Diary</h1>
+                <h1 className='h1'>My Diary</h1>
                 <Button click={props.headerClick} buttonType='button' buttonClass={props.headerButtonClass} buttonTitle={props.headerButtonTitle} buttonId={props.buttonContextId} />
         </header>
 
-const Button = (props) => <button button-text='text' onClick={props.click} onSubmit={props.submit} type={props.buttonType} id={props.buttonId} className={props.buttonClass}>{props.buttonTitle}</button>
+const Button = (props) => <button onClick={props.click} onSubmit={props.submit} type={props.buttonType} id={props.buttonId} className={props.buttonClass}>{props.buttonTitle}</button>
 
 
 const Input = (props) =>
@@ -78,10 +78,10 @@ const SigninComponent = (props) =>
 
 const HomeComponent = (props) =>
         <div className='backgroundOne backgroundProps'>
-                <Header headerClick={props.signinLink} headerClass='home-header' headerButtonClass='home-title-button' headerButtonTitle='Have an account ? Signin' />
+                <Header headerClick={props.signinLink} buttonContextId='signin-home' headerClass='home-header' headerButtonClass='home-title-button' headerButtonTitle='Have an account ? Signin' />
                 <main className='home-main'>
-                        <h3 home-message='message' className='home-intro' >Welcome to My Diary, an safe, fast and reliable online journal to pen your thoughts</h3>
-                        <Button click={props.signupLink} buttonType='click' buttonClass='home-button' buttonTitle='Create an account now' />
+                        <h3 className='home-intro' >Welcome to My Diary, an safe, fast and reliable online journal to pen your thoughts</h3>
+                        <Button click={props.signupLink} buttonType='click' buttonId='signup-home' buttonClass='home-button' buttonTitle='Create an account now' />
                 </main>
         </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom'
-import SignupComponent from '../components/users/signup';
+import App from '../App';
 import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 
@@ -21,12 +21,10 @@ describe('test signup component rendering', () => {
     it('renders signup page without with errors', () => {
         act(() => {
             render(
-                <MemoryRouter>
-                    <SignupComponent/>
+                <MemoryRouter initialEntries={['/signup']}>
+                    <App/>
                 </MemoryRouter>
                 , container);
         });
-        const h1 = document.querySelector("[header=title]");
-        expect(h1.textContent).toBe('My Diary'); 
     });
 });

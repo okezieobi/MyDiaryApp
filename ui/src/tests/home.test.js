@@ -1,12 +1,23 @@
+/*
+import React from 'react';
+import { render } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  const { getByText } = render(<App />);
+  const linkElement = getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+*/
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { MemoryRouter } from 'react-router-dom'
-import HomeComponent from '../components/users/home';
+import { MemoryRouter, Route } from 'react-router-dom'
+import App from '../App';
 import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 
-describe('test signup component rendering', () => {
-    let container;
+describe('test home page rendering', () => {
+    let container = null;
     beforeEach(() => {
         container = document.createElement('div');
         document.body.appendChild(container);
@@ -18,19 +29,47 @@ describe('test signup component rendering', () => {
         container = null;
     });
 
-    it('renders home page without with errors', () => {
+    it('test signup and signin without without errors', () => {
         act(() => {
+            let history, location;
             render(
-                <MemoryRouter>
-                    <HomeComponent/>
+                <MemoryRouter initialEntries={['/']} >
+                    <App />
+                    <Route
+                        path="*"
+                        render={({ history, location }) => {
+                            history = history;
+                            location = location;
+                            return null;
+                        }}
+                    />
                 </MemoryRouter>
                 , container);
         });
-        const h1 = document.querySelector("[header=title]");
-        expect(h1.textContent).toBe('My Diary'); 
-        const homeMessage = document.querySelector('[home-message=message]');
-        expect(homeMessage.textContent).toBe('Welcome to My Diary, an safe, fast and reliable online journal to pen your thoughts');
-        const headerButton = document.querySelector('[button-text=text]');
-        expect(headerButton.textContent).toBe('Have an account ? Signin');
+        const signinButton = document.querySelector('#signin-home');
+        expect(signinButton.textContent).toBe('Have an account ? Signin');
+        signinButton.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+        expect(location.pathname).toBe("/signin");
+
+        act(() => {
+            let history, location;
+            render(
+                <MemoryRouter initialEntries={['/']} >
+                    <App />
+                    <Route
+                        path="*"
+                        render={({ history, location }) => {
+                            history = history;
+                            location = location;
+                            return null;
+                        }}
+                    />
+                </MemoryRouter>
+                , container);
+        });
+        const signupButton = document.querySelector('#signup-home');
+        expect(signupButton.textContent).toBe('Create an account now');
+        // signupButton.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+        // expect(location.pathname).toBe("/signup");
     });
 });
