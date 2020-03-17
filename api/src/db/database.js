@@ -5,7 +5,7 @@ const { postgresURL, herokuPostgresURL } = new Env();
 
 export default class DbConnect {
   constructor() {
-    this.sequelize = new Sequelize(herokuPostgresURL || postgresURL);
+    this.sequelize = new Sequelize(herokuPostgresURL || postgresURL, { dialect: 'postgres' });
     this.Sequelize = Sequelize;
   }
 }

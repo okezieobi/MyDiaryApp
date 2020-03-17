@@ -4,7 +4,7 @@ import {
   chai,
   chaiHttp,
   app,
-} from '../index';
+} from '../utils';
 
 const {
   deleteData, addUsers, createEmailVarChar, createVarChars, returnRandomValue,

@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import chai, {
   expect,
 } from 'chai';

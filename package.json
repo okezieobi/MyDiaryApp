@@ -14,7 +14,7 @@
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "codeClimate": "nyc --reporter=lcov npm test",
     "test-client": "cd ui && npm test && cd ..",
-    "test": "npm run test-server && npm run test-client",
+    "test": "npm run test-client && npm run test-server",
     "test-server": "mocha --require @babel/register tests/test.js --exit",
     "build-client": "cd ui && npm install && npm run build && cd ..",
     "heroku-postbuild": "npm run build-client && npm run build"
