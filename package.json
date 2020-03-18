@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev-server-client": "concurrently 'npm run dev' 'cd ui && npm start'",
+    "install-packages": "npm install && cd ui && npm install && cd ..",
     "dev": "nodemon --exec babel-node api/src/index.js",
     "release": "npm run clean && npm run build-app && npm run start",
     "clean": "rm -rf api/dist && mkdir api/dist",
