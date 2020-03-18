@@ -39,7 +39,7 @@ describe('test signup component rendering', () => {
         expect(signupLink.textContent).toBe('Signup');
         expect(signinLegendTitle.textContent).toBe('Sign in');
         expect(labels.length).toBe(2);
-        expect(userLabel.textContent).toBe('Email/Username');
+        expect(userLabel.textContent).toBe('Email / Username');
         expect(passwordLabel.textContent).toBe('Password');
         expect(submitSignin.textContent).toBe('Submit');
         expect(inputs.length).toBe(2);

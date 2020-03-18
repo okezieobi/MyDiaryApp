@@ -37,7 +37,7 @@ const Button = (props) => <button button-context={props.buttonContext} onClick={
 
 const Input = (props) =>
         <div className='input-container'>
-                <label label-name={props.labelName} className={props.labelClass}>{props.inputLabel} <FontAwesomeIcon className='label-icon' icon={props.inputIcon} /></label>
+                <label label-name={props.labelName} className={props.labelClass}>{props.inputLabel}<FontAwesomeIcon className='label-icon' icon={props.inputIcon} /></label>
                 <input className={props.inputClass} onChange={props.trackValue} type={props.inputType} id={props.inputId} placeholder={props.placeholder} name={props.inputName} ></input>
         </div>
 

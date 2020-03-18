@@ -75,7 +75,7 @@ describe('test home page rendering', () => {
         expect(signupLink.textContent).toBe('Signup');
         expect(signinLegendTitle.textContent).toBe('Sign in');
         expect(labels.length).toBe(2);
-        expect(emailLabel.textContent).toBe('Email/Username');
+        expect(emailLabel.textContent).toBe('Email / Username');
         expect(passwordLabel.textContent).toBe('Password');
         expect(submitSignin.textContent).toBe('Submit');
         expect(inputs.length).toBe(2);
