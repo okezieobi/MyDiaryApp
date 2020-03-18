@@ -14,6 +14,17 @@
   padding: 0 10px;
 }
 
+.header-icon {
+  font-size: 1em;
+  margin-right: 5px;
+}
+
+.label-icon {
+  font-size: 1em;
+  margin-left: 5px;
+}
+
+
 .home-header {
   display: flex;
   flex-flow: row wrap;
@@ -28,7 +39,7 @@
   color: blue;
   margin: 10px 0 10px 10px;
   padding: 0 3vw;
-  border-radius: 2vh;
+  border-radius: 1em;
   font-size: large;
   border: none;
 }
@@ -38,7 +49,7 @@
   color: blue;
   margin: 10px 0 10px 10px;
   padding: 0 3vw;
-  border-radius: 2vh;
+  border-radius: 1em;
   font-size: large;
   border: none;
   outline: none;
@@ -49,7 +60,7 @@
   color: white;
   margin: 10vh 10px 0 10px;
   padding: 3vh 3vw;
-  border-radius: 2vh;
+  border-radius: 1em;
   font-size: large;
   width: 30vw;
   align-self: center;
@@ -75,8 +86,8 @@
 .signin-submit-button {
   background-color: white;
   color: blue;
-  border-radius: 10px;
-  width: 100%;
+  border-radius: 0.5em;
+  min-width: 72.4%;
   font-size: 15px;
   padding: 10px 15px;
   font-size: large;
@@ -88,8 +99,8 @@
 .signup-submit-button {
   background-color: white;
   color: blue;
-  border-radius: 10px;
-  width: 100%;
+  border-radius: 0.5em;
+  min-width: 82%;
   font-size: 15px;
   padding: 10px 15px;
   font-size: large;
@@ -141,7 +152,29 @@
   padding: 10px 20px;
   width: 50vw;
   font-size: large;
-  border-radius: 20px;
+  border-radius: 1em;
+}
+
+.signup-form {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  min-width: 70vw;
+  font-size: large;
+  border-radius: 1em;
+}
+
+.signin-form {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  min-width: 60vw;
+  font-size: large;
+  border-radius: 1em;
 }
 
 .dashboard {
@@ -155,48 +188,47 @@
 
 .input-container {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
   margin: 10px 0;
 }
 
-.signup-breaking-space {
-  margin-right: 10px;
-  flex: 0 0 85px;
-}
-
-.signin-breaking-space {
-  margin-right: 10px;
-  flex: 0 0 109px;
-}
-
-.signup-input, .signin-input {
+.signup-input {
   border: none;
   padding: 10px;
-  border-radius: 5px;
-  width: 100%;
+  border-radius: 0.5em;
   color: blue;
+  min-width: 80%;
   font-size: large;
 }
 
-
-@media screen and (min-width: 1350px) {
-  .signup-input {
-    width: 83%;
-  }
-
-  .signin-input {
-    width: 76%;
-  }
-
-  .signup-submit-button {
-    width: 86%;
-  }
-  
-  .signin-submit-button {
-    width: 79%;
-  }
+.signin-input {
+  border: none;
+  padding: 10px;
+  border-radius: 0.5em;
+  color: blue;
+  min-width: 70%;
+  font-size: large;
 }
+
+@media screen and (max-width: 1150px) {
+ .input-container {
+  flex-flow: column nowrap;
+ }
+
+ .label {
+   margin-bottom: 10px;
+ }
+
+ .signup-submit-button {
+  min-width: 90vw;
+}
+
+.signin-submit-button {
+  min-width: 90vw;
+}
+}
+
 
 @media screen and (max-width: 400px) {
   .home-title-button {
@@ -206,10 +238,4 @@
   .home-header {
     justify-content: center;
   }
-}
-
-@media screen and (max-width: 1100px) {
- .form {
-   width: 80vw;
- }
 }
