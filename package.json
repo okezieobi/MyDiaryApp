@@ -12,10 +12,11 @@
     "build": "npm run clean && npm run build-app",
     "build-app": "babel api/src -s -d api/dist --presets=@babel/env",
     "start": "node api/dist/index.js",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "codeClimate": "nyc --reporter=lcov npm test",
+    "coveralls": "nyc npm run test-server && nyc report --reporter=text-lcov | coveralls",
+    "codeClimate": "nyc --reporter=lcov npm run test-server",
     "test-client": "cd ui && npm test && cd ..",
     "test": "npm run test-client && npm run test-server",
+    "ui-test-coverage": "cd ui && npm run test-coverage && cd ..",
     "test-server": "mocha --require @babel/register tests/test.js --exit",
     "build-client": "cd ui && npm install && npm run build && cd ..",
     "heroku-postbuild": "npm run build-client && npm run build"

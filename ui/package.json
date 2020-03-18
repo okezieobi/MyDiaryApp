@@ -20,7 +20,8 @@
     "build": "react-scripts build",
     "test-react": "react-scripts test",
     "eject": "react-scripts eject",
-    "test": "npm run test-react -- --watchAll=false"
+    "test": "npm run test-react -- --watchAll=false",
+    "test-coverage": "npm run test -- --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
