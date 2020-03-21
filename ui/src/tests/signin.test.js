@@ -1,11 +1,14 @@
 import React from 'react';
 import { unmountComponentAtNode, render } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom'
-import App from '../App';
 import { act, Simulate } from 'react-dom/test-utils';
+
+import App from '../App';
+import { UserInputs, UserRes } from './utils';
 
 describe('test signup component rendering', () => {
     let container;
+    
     beforeEach(() => {
         container = document.createElement('div');
         document.body.appendChild(container);
@@ -80,5 +83,39 @@ describe('test signup component rendering', () => {
         expect(passwordLabel.textContent).toBe('Password');
         expect(submitSignup.textContent).toBe('Submit');
         expect(inputs.length).toBe(4);
-    })
+    });
+
+    it('navigates to dashboard page from signin page if signup is successful', async () => {
+        act(() => {
+            render(
+                <MemoryRouter initialEntries={['/signin']} >
+                    <App />
+                </MemoryRouter>
+                , container);
+        });
+
+            const userInput = document.querySelector('input[name=user]');
+            const passwordInput = document.querySelector('input[name=password]');
+            const signinForm = document.querySelector('#signin-form');
+
+            jest.spyOn(global, "fetch").mockImplementation(() =>
+                Promise.resolve({
+                    json: () => Promise.resolve(UserRes.token),
+                })
+            );
+
+            await act(async () => {
+                Simulate.change(userInput, { target: { value: UserInputs.email || UserInputs.username } });
+                Simulate.change(passwordInput, { target: { value: UserInputs.password } });                
+                Simulate.submit(signinForm);
+            })        
+
+        const h1 = document.querySelector('[h1=true]');
+        const dashboardSignout = document.querySelector('[button-context=dashboard]');
+
+        expect(h1.textContent).toBe('My Diary');
+        expect(dashboardSignout.textContent).toBe('Signout');
+        
+        global.fetch.mockRestore();
+    });
 });

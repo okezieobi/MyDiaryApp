@@ -69,7 +69,7 @@ const SigninComponent = ({ signupLink, error, handleSubmit, handleUserChange, ha
                 <Header headerButtonContext='signup' headerClick={signupLink} headerClass="header" headerButtonTitle='Signup' headerButtonClass='title-button' buttonContextId='signup' />
                 <Error errorInfo={error} />
                 <main className='main'>
-                        <form onSubmit={handleSubmit} id='signin' className='signin-form'>
+                        <form onSubmit={handleSubmit} id='signin-form' className='signin-form'>
                                 <Legend formTitle='Sign in' />
                                 <Input labelClass='label' inputIcon={faUser} labelName='user' inputClass='signin-input' trackValue={handleUserChange} inputLabel='Email / Username' inputType='text' inputId='user' placeholder='Enter email or username here' inputName='user' />
                                 <Input labelClass='label' inputIcon={faKey} labelName='password' inputClass='signin-input' trackValue={handlePasswordChange} inputLabel='Password' inputType='password' inputId='password' placeholder='Enter password here' inputName='password' />

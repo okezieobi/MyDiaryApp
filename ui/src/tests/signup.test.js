@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { act, Simulate } from 'react-dom/test-utils';
 
 import App from '../App';
-// import { UserInputs } from './utils';
+import { UserInputs, UserRes } from './utils';
 
 describe('test signup component rendering', () => {
     let container;
@@ -13,6 +13,10 @@ describe('test signup component rendering', () => {
         container = document.createElement('div');
         document.body.appendChild(container);
     });
+
+    afterEach(() => {
+        
+    })
 
     afterEach(() => {
         unmountComponentAtNode(container);
@@ -87,8 +91,7 @@ describe('test signup component rendering', () => {
 
     });
 
-/*
-    it('navigate to dashboard page from signup page if signup is successful',  async () => {
+    it('navigates to dashboard page from signup page if signup is successful', async () => {
         act(() => {
             render(
                 <MemoryRouter initialEntries={['/signup']} >
@@ -97,25 +100,32 @@ describe('test signup component rendering', () => {
                 , container);
         });
 
-        act(() => {
             const fullNameInput = document.querySelector('input[name=fullName]');
             const usernameInput = document.querySelector('input[name=username]');
             const emailInput = document.querySelector('input[name=email]');
             const passwordInput = document.querySelector('input[name=password]');
             const signupForm = document.querySelector('#signup-form');
 
-            Simulate.change(fullNameInput, {target: {value: UserInputs[0].fullName}});
-            Simulate.change(usernameInput, {target: {value: UserInputs[1].username}});
-            Simulate.change(emailInput, {target: {value: UserInputs[1].email}});
-            Simulate.change(passwordInput, {target: {value: UserInputs[0].password}});
-            Simulate.submit(signupForm);
-        });
+            jest.spyOn(global, "fetch").mockImplementation(() =>
+                Promise.resolve({
+                    json: () => Promise.resolve(UserRes.token),
+                })
+            );
+
+            await act(async () => {
+                Simulate.change(fullNameInput, { target: { value: UserInputs.fullName } });
+                Simulate.change(usernameInput, { target: { value: UserInputs.username } });
+                Simulate.change(emailInput, { target: { value: UserInputs.email } });
+                Simulate.change(passwordInput, { target: { value: UserInputs.password } });
+                Simulate.submit(signupForm);
+            })        
 
         const h1 = document.querySelector('[h1=true]');
         const dashboardSignout = document.querySelector('[button-context=dashboard]');
 
         expect(h1.textContent).toBe('My Diary');
         expect(dashboardSignout.textContent).toBe('Signout');
+
+        global.fetch.mockRestore();
     });
-    */
 });
