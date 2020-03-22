@@ -14,6 +14,17 @@
   padding: 0 10px;
 }
 
+.header-icon {
+  font-size: 1em;
+  margin-right: 5px;
+}
+
+.label-icon {
+  font-size: 1em;
+  margin-left: 10px;
+}
+
+
 .home-header {
   display: flex;
   flex-flow: row wrap;
@@ -28,7 +39,7 @@
   color: blue;
   margin: 10px 0 10px 10px;
   padding: 0 3vw;
-  border-radius: 2vh;
+  border-radius: 1em;
   font-size: large;
   border: none;
 }
@@ -38,7 +49,7 @@
   color: blue;
   margin: 10px 0 10px 10px;
   padding: 0 3vw;
-  border-radius: 2vh;
+  border-radius: 1em;
   font-size: large;
   border: none;
   outline: none;
@@ -49,7 +60,7 @@
   color: white;
   margin: 10vh 10px 0 10px;
   padding: 3vh 3vw;
-  border-radius: 2vh;
+  border-radius: 1em;
   font-size: large;
   width: 30vw;
   align-self: center;
@@ -62,7 +73,7 @@
   text-align: center;
 }
 
-.title-button:hover, .submit-button:hover, .home-button:hover , .home-title-button:hover {
+.title-button:hover, .signup-submit-button:hover, .signin-submit-button:hover, .home-button:hover , .home-title-button:hover {
   cursor: pointer;
   opacity: 0.8;
 }
@@ -72,11 +83,24 @@
   font-size: xx-large;
 }
 
-.submit-button {
+.signin-submit-button {
   background-color: white;
   color: blue;
-  border-radius: 10px;
-  width: 100%;
+  border-radius: 0.5em;
+  min-width: 72.4%;
+  font-size: 15px;
+  padding: 10px 15px;
+  font-size: large;
+  align-self: flex-end;
+  border: none;
+  outline: none;
+}
+
+.signup-submit-button {
+  background-color: white;
+  color: blue;
+  border-radius: 0.5em;
+  min-width: 82%;
   font-size: 15px;
   padding: 10px 15px;
   font-size: large;
@@ -104,12 +128,18 @@
 
 .backgroundOne {
   background-image: url('./icons/undraw_Bibliophile_hwqc.svg');
-  background-size: cover;
-  height: 100vh;
 }
 
 .backgroundTwo {
   background-image: url('./icons/artOne.svg');
+}
+
+.backgroundThree {
+  background-image: url('./icons/undraw_personal_notebook_sobb.svg');
+}
+
+
+.backgroundProps {
   background-size: cover;
   height: 100vh;
 }
@@ -122,7 +152,29 @@
   padding: 10px 20px;
   width: 50vw;
   font-size: large;
-  border-radius: 20px;
+  border-radius: 1em;
+}
+
+.signup-form {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  min-width: 70vw;
+  font-size: large;
+  border-radius: 1em;
+}
+
+.signin-form {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  min-width: 60vw;
+  font-size: large;
+  border-radius: 1em;
 }
 
 .dashboard {
@@ -136,42 +188,47 @@
 
 .input-container {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
   margin: 10px 0;
 }
 
-.label {
-  text-align: left;
-  margin-right: 10px;
-  flex: 0 0 81px;
-  align-self: left;
-}
-
-.breaking-space {
-  margin-right: 10px;
-  flex: 0 0 89px;
-}
-
-.input {
+.signup-input {
   border: none;
   padding: 10px;
-  border-radius: 5px;
-  width: 100%;
+  border-radius: 0.5em;
   color: blue;
+  min-width: 80%;
   font-size: large;
 }
 
-
-@media screen and (min-width: 1350px) {
-  .input {
-    width: 83%;
-  }
-
-  .submit-button {
-    width: 85%
-  }
+.signin-input {
+  border: none;
+  padding: 10px;
+  border-radius: 0.5em;
+  color: blue;
+  min-width: 70%;
+  font-size: large;
 }
+
+@media screen and (max-width: 1150px) {
+ .input-container {
+  flex-flow: column nowrap;
+ }
+
+ .label {
+   margin-bottom: 10px;
+ }
+
+ .signup-submit-button {
+  min-width: 90vw;
+}
+
+.signin-submit-button {
+  min-width: 90vw;
+}
+}
+
 
 @media screen and (max-width: 400px) {
   .home-title-button {
@@ -181,4 +238,4 @@
   .home-header {
     justify-content: center;
   }
-  }
+}

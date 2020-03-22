@@ -1,46 +1,34 @@
-import database from '../db/pgConnect';
-import token from '../helpers/jwt';
-import authenticateUsers from '../auth/users';
-import protocol from '../helpers/response';
-import models from '../models/users';
-import Queries from '../queries/users';
-import logger from '../helpers/logger';
+import DbConnect from '../db/database';
+import Token from '../utils/jwt';
+import HttpResponse from '../utils/response';
+import UserModel from '../models/user';
+import Bcrypt from '../utils/bcrypt';
+import CustomErrs from '../errors/custom';
 
-class UserController {
-  constructor() {
-    this.addUser = this.addUser.bind(this);
-    this.sendAuthResponse = this.sendAuthResponse.bind(this);
-  }
+const { auth200Res, auth201Res } = HttpResponse;
+const { prepareResponse } = UserModel;
+const { sequelize } = new DbConnect();
+const { generate } = Token;
+const { compare } = Bcrypt;
+const { wrongPassword } = new CustomErrs();
 
-  async addUser({ body }, res, next) {
-    const createUserQuery = Queries.createClient();
-    const arrayData = models.requestData(body);
+export default class UserController {
+  static async addUser({ body }, res, next) {
     try {
-      this.newUser = await database.queryOne(createUserQuery, arrayData);
-      return next();
+      const reqData = UserModel.prepareRequest(body);
+      await sequelize.transaction(async (t) => {
+        const data = await UserModel.create(reqData, { transaction: t });
+        auth201Res(res, prepareResponse(data), generate(data.id));
+      });
     } catch (error) {
-      return logger.displayErrors(error);
+      next(error);
     }
   }
 
-  async sendAuthResponse(req, res) {
-    const { newUser } = this;
-    const { verifyUser } = authenticateUsers;
-    try {
-      if (verifyUser) {
-        const signInRes = await models.responseData(verifyUser);
-        const signinToken = await token.generate(verifyUser.id);
-        protocol.auth200Res(res, signInRes, signinToken);
-      } else {
-        const signUpRes = await models.responseData(newUser);
-        const signupToken = await token.generate(newUser.id);
-        protocol.auth201Res(res, signUpRes, signupToken);
-      }
-    } catch (error) {
-      throw logger.displayErrors(error);
-    }
+  static verifyPassword({ body: { password = '' } }, res) {
+    const { locals: { registeredUser } } = res;
+    const verifyPassword = compare(registeredUser.hashedPassword, password);
+    if (!verifyPassword) throw new CustomErrs(400, wrongPassword);
+    else auth200Res(res, prepareResponse(registeredUser), generate(registeredUser.id));
   }
 }
-
-const userController = new UserController();
-export default userController;

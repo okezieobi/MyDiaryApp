@@ -1,56 +1,86 @@
-import protocol from '../helpers/response';
-import database from '../db/pgConnect';
-import literalErrors from '../errors/stringLiterals';
-import logger from '../helpers/logger';
-// import templateErrors from '../errors/templateLiterals';
-// import test from '../helpers/regex';
-import Queries from '../queries/users';
-//  import jwt from '../helpers/jwt';
-import bcrypt from '../helpers/bcrypt';
+import CustomErrs from '../errors/custom';
+import UserModel from '../models/user';
+/*
+import Jwt from '../utils/jwt';
+import Validator from '../utils/coreValidator';
+*/
+import DbConnect from '../db/database';
 
-class UserAuth {
-  constructor() {
-    this.authSignup = this.authSignup.bind(this);
-    this.verifyPassword = this.verifyPassword.bind(this);
-    this.authSignin = this.authSignin.bind(this);
-  }
+const {
+  userExists, userNotExists,
+  // wrongToken,
+} = new CustomErrs();
+/*
+const { verify } = Jwt;
+const { checkUUID } = Validator;
+const { notUUID } = CustomErrs;
+*/
+const { sequelize, Op } = new DbConnect();
 
-  async authSignup({ body }, res, next) {
+export default class UserAuth {
+  static async verifyWithUnique({ body: { username = '', email = '' } }, res, next) {
     try {
-      const { username, email } = body;
-      const findUserQuery = Queries.findUserByEmailOrUsername();
-      this.newUser = await database.queryOneORNone(findUserQuery, [email, username]);
-      if (this.newUser) return protocol.err400Res(res, literalErrors.userExists());
-      return next();
+      await sequelize.transaction(async (t) => {
+        const data = await UserModel.findOne({
+          where: {
+            [Op.or]: [{ username }, { email }],
+          },
+        }, { transaction: t });
+        if (data) throw new CustomErrs(400, userExists);
+        else next();
+      });
     } catch (error) {
-      return logger.displayErrors(error);
+      next(error);
     }
   }
 
-  async authSignin({ body }, res, next) {
+  static async findByUnique({ body: { user = '' } }, res, next) {
     try {
-      const { user } = body;
-      const findUserQuery = Queries.findUserWithUsernameOrEmail();
-      this.verifyUser = await database.queryOneORNone(findUserQuery, [user]);
-      if (!this.verifyUser) return protocol.err404Res(res, literalErrors.userNotExists());
-      return next();
+      await sequelize.transaction(async (t) => {
+        const data = await UserModel.findOne({
+          where: {
+            [Op.or]: [{ username: user }, { email: user }],
+          },
+        }, { transaction: t });
+        if (data) {
+          res.locals.registeredUser = data;
+          next();
+        } else {
+          throw new CustomErrs(404, userNotExists);
+        }
+      });
     } catch (error) {
-      return logger.displayErrors(error);
+      next(error);
     }
   }
 
-  async verifyPassword({ body }, res, next) {
-    const { password } = body;
-    const { verifyUser } = this;
-    try {
-      const verifyPassword = await bcrypt.compare(verifyUser.password, password);
-      if (!verifyPassword) protocol.err400Res(res, literalErrors.wrongPassword());
-      else next();
-    } catch (error) {
-      throw new Error(error);
+  /*
+  static verifyToken({ headers: { token = '' } }, res, next) {
+    const { userId } = verify(token);
+    const checkId = checkUUID(userId);
+    if (checkId) {
+      res.locals.userId = userId;
+      next();
+    } else {
+      throw new CustomErrs(400, notUUID('Id from token'));
     }
   }
+
+  static async authenticateAll(req, res, next) {
+    try {
+      const { locals: { userId } } = res;
+      await sequelize.transaction(async (t) => {
+        const data = await UserModel.findByPk(userId, { transaction: t });
+        if (data) {
+          res.locals.authUser = data;
+          next();
+        } else {
+          throw new CustomErrs(401, wrongToken);
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  */
 }
-
-const authUser = new UserAuth();
-export default authUser;

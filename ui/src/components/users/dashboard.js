@@ -1,22 +1,16 @@
 import React from 'react';
-import { Header } from '../components';
+import { useHistory } from 'react-router-dom';
+import { DashboardComponent } from '../components';
 
-export default class UserDashboard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            token: localStorage.getItem('token'),
-        }
-    }
+const UserDashboard = () => {
+    const history = useHistory();
+    const token = localStorage.getItem('token');
 
-    render() {
-        return (
-            <div className=''>
-                <Header headerClass='header' headerButtonClass='title-button' headerButtonTitle='Signout' buttonContextId='signout' />
-                <main className='main'>
-                    <section className='dashboard'>{this.state.token}</section>
-                </main>
-            </div>
-        )
+    if (token) {
+        return <DashboardComponent token={token} />
+    } else {
+        return history.push('/signin');
     }
 }
+
+export default UserDashboard;

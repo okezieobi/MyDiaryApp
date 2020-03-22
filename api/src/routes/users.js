@@ -1,9 +1,14 @@
-import userController from '../controllers/users';
+import UserController from '../controllers/users';
 import router from './router';
-import userMiddleware from '../middlewares/users';
+import UserMiddleware from '../middleware/users';
+import MiddlewareHelper from '../middleware/middleware';
 
-router.post('/auth/signup', userMiddleware.signup(), userController.sendAuthResponse);
+const { addUser, verifyPassword } = UserController;
+const { signup, signin } = UserMiddleware;
+const { callBack } = MiddlewareHelper;
 
-router.post('/auth/signin', userMiddleware.signin(), userController.sendAuthResponse);
+router.post('/auth/signup', signup(), callBack(addUser));
+
+router.post('/auth/signin', signin(), callBack(verifyPassword));
 
 export default router;
