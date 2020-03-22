@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { AuthRequest, SigninComponent, HandleInputChange } from '../components';
-import { Redirect } from 'react-router-dom';
 
 const Signin = () => {
     const history = useHistory();
