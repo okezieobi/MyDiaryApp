@@ -1,16 +1,21 @@
 import { Op } from 'sequelize';
 import CustomErrs from '../errors/custom';
 import UserModel from '../models/user';
+/*
 import Jwt from '../utils/jwt';
 import Validator from '../utils/coreValidator';
+*/
 import DbConnect from '../db/database';
 
 const {
-  userExists, userNotExists, wrongToken,
+  userExists, userNotExists,
+  // wrongToken,
 } = new CustomErrs();
+/*
 const { verify } = Jwt;
 const { checkUUID } = Validator;
 const { notUUID } = CustomErrs;
+*/
 const { sequelize } = new DbConnect();
 
 export default class UserAuth {
@@ -50,6 +55,7 @@ export default class UserAuth {
     }
   }
 
+  /*
   static verifyToken({ headers: { token = '' } }, res, next) {
     const { userId } = verify(token);
     const checkId = checkUUID(userId);
@@ -77,4 +83,5 @@ export default class UserAuth {
       next(error);
     }
   }
+  */
 }
