@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { act, Simulate } from 'react-dom/test-utils';
 
 import App from '../App';
-import { UserInputs, UserRes } from './utils';
+import { inputs, successRes, errorRes } from './utils';
 
 describe('test signup component rendering', () => {
     let container;
@@ -100,13 +100,13 @@ describe('test signup component rendering', () => {
 
             jest.spyOn(global, "fetch").mockImplementation(() =>
                 Promise.resolve({
-                    json: () => Promise.resolve(UserRes.token),
+                    json: () => Promise.resolve(successRes),
                 })
             );
 
             await act(async () => {
-                Simulate.change(userInput, { target: { value: UserInputs.email || UserInputs.username } });
-                Simulate.change(passwordInput, { target: { value: UserInputs.password } });                
+                Simulate.change(userInput, { target: { value: inputs.email || inputs.username } });
+                Simulate.change(passwordInput, { target: { value: inputs.password } });                
                 Simulate.submit(signinForm);
             })        
 
@@ -116,6 +116,37 @@ describe('test signup component rendering', () => {
         expect(h1.textContent).toBe('My Diary');
         expect(dashboardSignout.textContent).toBe('Signout');
         
+        global.fetch.mockRestore();
+    });
+
+
+    it('displays error message at signup page if signup is unsuccessful', async () => {
+        act(() => {
+            render(
+                <MemoryRouter initialEntries={['/signin']} >
+                    <App />
+                </MemoryRouter>
+                , container);
+        });
+
+            const signinForm = document.querySelector('#signin-form');
+
+            jest.spyOn(global, "fetch").mockImplementation(() =>
+                Promise.resolve({
+                    json: () => Promise.resolve(errorRes),
+                })
+            );
+
+            await act(async () => {
+                Simulate.submit(signinForm);
+            })        
+
+        const h1 = document.querySelector('[h1=true]');
+        const authError = document.querySelector('[auth-error=signin]');
+
+        expect(h1.textContent).toBe('My Diary');
+        expect(authError.textContent).toBe(errorRes.error);
+
         global.fetch.mockRestore();
     });
 });

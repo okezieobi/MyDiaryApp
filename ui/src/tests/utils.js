@@ -1,15 +1,18 @@
-const UserInputs = {
+const inputs = {
     fullName: 'Frank Okezie',
     username: 'Obiedere',
     email: 'foobar@mail.com',
     password: '456789Lovely',
 }
 
-const UserRes = {
+const successRes = {
     token: 'faketoken',
-    error: 'errormessage'
+}
+
+const errorRes = {
+    error: 'fakeError'
 }
 
 export {
-    UserInputs, UserRes
+    inputs, successRes, errorRes
 }

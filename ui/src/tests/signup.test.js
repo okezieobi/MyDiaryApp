@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { act, Simulate } from 'react-dom/test-utils';
 
 import App from '../App';
-import { UserInputs, UserRes } from './utils';
+import { inputs, successRes, errorRes } from './utils';
 
 describe('test signup component rendering', () => {
     let container;
@@ -13,10 +13,6 @@ describe('test signup component rendering', () => {
         container = document.createElement('div');
         document.body.appendChild(container);
     });
-
-    afterEach(() => {
-        
-    })
 
     afterEach(() => {
         unmountComponentAtNode(container);
@@ -108,15 +104,15 @@ describe('test signup component rendering', () => {
 
             jest.spyOn(global, "fetch").mockImplementation(() =>
                 Promise.resolve({
-                    json: () => Promise.resolve(UserRes.token),
+                    json: () => Promise.resolve(successRes),
                 })
             );
 
             await act(async () => {
-                Simulate.change(fullNameInput, { target: { value: UserInputs.fullName } });
-                Simulate.change(usernameInput, { target: { value: UserInputs.username } });
-                Simulate.change(emailInput, { target: { value: UserInputs.email } });
-                Simulate.change(passwordInput, { target: { value: UserInputs.password } });
+                Simulate.change(fullNameInput, { target: { value: inputs.fullName } });
+                Simulate.change(usernameInput, { target: { value: inputs.username } });
+                Simulate.change(emailInput, { target: { value: inputs.email } });
+                Simulate.change(passwordInput, { target: { value: inputs.password } });
                 Simulate.submit(signupForm);
             })        
 
@@ -125,6 +121,36 @@ describe('test signup component rendering', () => {
 
         expect(h1.textContent).toBe('My Diary');
         expect(dashboardSignout.textContent).toBe('Signout');
+
+        global.fetch.mockRestore();
+    });
+
+    it('displays error message at signup page if signup is unsuccessful', async () => {
+        act(() => {
+            render(
+                <MemoryRouter initialEntries={['/signup']} >
+                    <App />
+                </MemoryRouter>
+                , container);
+        });
+
+            const signupForm = document.querySelector('#signup-form');
+
+            jest.spyOn(global, "fetch").mockImplementation(() =>
+                Promise.resolve({
+                    json: () => Promise.resolve(errorRes),
+                })
+            );
+
+            await act(async () => {
+                Simulate.submit(signupForm);
+            })        
+
+        const h1 = document.querySelector('[h1=true]');
+        const authError = document.querySelector('[auth-error=signup]');
+
+        expect(h1.textContent).toBe('My Diary');
+        expect(authError.textContent).toBe(errorRes.error);
 
         global.fetch.mockRestore();
     });

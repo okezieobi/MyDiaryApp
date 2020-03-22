@@ -67,7 +67,7 @@ const SignupComponent = ({ signinLink, error, handleSubmit, handleFullNameChange
 const SigninComponent = ({ signupLink, error, handleSubmit, handleUserChange, handlePasswordChange }) =>
         <div className='backgroundThree backgroundProps'>
                 <Header headerButtonContext='signup' headerClick={signupLink} headerClass="header" headerButtonTitle='Signup' headerButtonClass='title-button' buttonContextId='signup' />
-                <Error errorInfo={error} />
+                <Error authError='signin' errorInfo={error} />
                 <main className='main'>
                         <form onSubmit={handleSubmit} id='signin-form' className='signin-form'>
                                 <Legend formTitle='Sign in' />
