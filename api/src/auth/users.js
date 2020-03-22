@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import CustomErrs from '../errors/custom';
 import UserModel from '../models/user';
 /*
@@ -16,7 +15,7 @@ const { verify } = Jwt;
 const { checkUUID } = Validator;
 const { notUUID } = CustomErrs;
 */
-const { sequelize } = new DbConnect();
+const { sequelize, Op } = new DbConnect();
 
 export default class UserAuth {
   static async verifyWithUnique({ body: { username = '', email = '' } }, res, next) {
