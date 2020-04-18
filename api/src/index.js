@@ -1,20 +1,19 @@
-import DbConnect from './db/database';
+import { Sequelize } from 'sequelize';
 import app from './app';
-import Logger from './utils/logger';
-import Env from './configs/env';
+import env from './configs/env';
 
-const { infoLog, errorLog } = new Logger();
-const { appPort } = new Env();
-const { sequelize } = new DbConnect();
+const { warn, error } = console;
+const { appPort, herokuPostgresURL, postgresURL } = env;
+const sequelize = new Sequelize(herokuPostgresURL || postgresURL, { dialect: 'postgres' });
 
 const startApp = async () => {
   try {
     await sequelize.authenticate();
     app.listen(appPort || '5000', () => {
-      infoLog.info(`Connected to database, app is live and listening on port ${appPort || '5000'}!`);
+      warn(`Connected to database, app is live and listening on port ${appPort || '5000'}!`);
     });
   } catch (err) {
-    throw errorLog.error(err);
+    throw error(err);
   }
 };
 

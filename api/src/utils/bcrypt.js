@@ -1,11 +1,14 @@
 import bcrypt from 'bcryptjs';
 
 export default class Bcrypt {
-  static hash(password = '') {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(12));
+  static async hash(password = '') {
+    const salt = await bcrypt.genSalt(14);
+    const encrypted = await bcrypt.hash(password, salt);
+    return encrypted;
   }
 
-  static compare(hashedPassword = '', password = '') {
-    return bcrypt.compareSync(password, hashedPassword);
+  static async compare(hashedPassword = '', password = '') {
+    const decrypted = await bcrypt.compare(password, hashedPassword);
+    return decrypted;
   }
 }

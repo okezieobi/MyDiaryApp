@@ -1,19 +1,19 @@
 import jwt from 'jsonwebtoken';
-import Env from '../configs/env';
+import env from '../configs/env';
 
-const { sign, verify } = jwt;
-const { jwtSecret } = new Env();
+const { jwtSecret } = env;
 
 export default class Token {
-  static generate(id = 0) {
-    return sign({
-      userId: id,
+  static generate(user) {
+    return jwt.sign({
+      userId: user.id,
     }, jwtSecret, {
       expiresIn: 24 * 60 * 60,
     });
   }
 
-  static verify(token = '') {
-    return verify(token, jwtSecret);
+  static verify(headers, next) {
+    return jwt.verify(headers.token, jwtSecret,
+      (err, { userId }) => next(err) || Object.defineProperty(headers, 'userId', { value: userId }));
   }
 }
