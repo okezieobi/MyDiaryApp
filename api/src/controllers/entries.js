@@ -4,7 +4,7 @@ import sequelize from '../db/connect';
 export default class EntryController {
   static async createOne(req, res, next) {
     try {
-      sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         const {
           id, title, body, createdOn,
         } = await Entry.create({

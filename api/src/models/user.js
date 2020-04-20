@@ -139,16 +139,19 @@ User.init({
         },
         transaction: options.transaction,
       });
-      if (emailExists) throw new CustomErrs(400, `User with ${user.email} already exists, please signup with another email`);
       const usernameExists = await User.findOne({
         where: {
           username: user.username,
         },
         transaction: options.transaction,
       });
-      if (usernameExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another email`);
-      const placeholder = user;
-      placeholder.password = await User.hashString(user.password);
+      if (emailExists && !usernameExists) throw new CustomErrs(400, `User with ${user.email} already exists, please signup with another email`);
+      else if (usernameExists && !emailExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another email`);
+      else if (emailExists && usernameExists) throw new CustomErrs(400, `User(s) with ${user.email} and ${user.username} already exists, please signup with another email and username`);
+      else {
+        const placeholder = user;
+        placeholder.password = await User.hashString(user.password);
+      }
     },
     afterCreate: (user) => {
       const placeholder = user;
