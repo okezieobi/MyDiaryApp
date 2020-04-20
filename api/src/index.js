@@ -1,10 +1,10 @@
-import { Sequelize } from 'sequelize';
 import app from './app';
 import env from './configs/env';
+import sequelize from './db/connect';
 
 const { warn, error } = console;
-const { appPort, herokuPostgresURL, postgresURL } = env;
-const sequelize = new Sequelize(herokuPostgresURL || postgresURL, { dialect: 'postgres' });
+const { appPort } = env;
+
 
 const startApp = async () => {
   try {

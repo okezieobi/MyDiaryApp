@@ -1,15 +1,13 @@
 import {
-  Model, DataTypes, Sequelize,
+  Model, DataTypes,
 } from 'sequelize';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import Joi from '@hapi/joi';
-import env from '../configs/env';
+import sequelize from '../db/connect';
 import CustomErrs from '../errors/custom';
-
-const { herokuPostgresURL, postgresURL, jwtSecret } = env;
-const sequelize = new Sequelize(herokuPostgresURL || postgresURL, { dialect: 'postgres' });
+import env from '../configs/env';
 
 class User extends Model {
   static async hashString(password = '') {
@@ -26,24 +24,22 @@ class User extends Model {
   static generate(user) {
     return jwt.sign({
       userId: user.id,
-    }, jwtSecret, {
+    }, env.jwtSecret, {
       expiresIn: 24 * 60 * 60,
     });
   }
 
-  static verify(headers, next) {
-    return jwt.verify(headers.token, jwtSecret,
-      (err, { userId }) => {
-        if (err) next(err);
-        else {
-          const headerPlaceholder = headers;
-          headerPlaceholder.userId = userId;
-        }
-      });
+  static verify(headers) {
+    return jwt.verify(headers.token, env.jwtSecret);
   }
 
   static checkToken(value) {
     if (!validator.isJWT(value)) throw new Error('Token provided does not match Json Web Token format');
+    const { userId } = User.verify(value);
+    if (!validator.isUUID(userId, 4)) throw new Error('Id from token does not match UUIDv4');
+    const placeholder = value;
+    placeholder.primaryKey = userId;
+    return placeholder;
   }
 
   static prepareResponse({
@@ -191,7 +187,6 @@ const authToken = Joi.object({
     }),
 });
 
-(async () => { await User.sync({ force: true, match: /mydiary/ }); })();
 
 export {
   User, authSchema, authToken,

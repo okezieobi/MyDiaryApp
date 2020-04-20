@@ -1,10 +1,8 @@
-import { Sequelize, Op } from 'sequelize';
-import env from '../configs/env';
-import { User, authSchema } from '../models/user';
+import { Op } from 'sequelize';
+import { User, authSchema } from '../models';
 import CustomErr from '../errors/custom';
+import sequelize from '../db/connect';
 
-const { herokuPostgresURL, postgresURL } = env;
-const sequelize = new Sequelize(herokuPostgresURL || postgresURL, { dialect: 'postgres' });
 
 export default class UserController {
   static async signup({ body }, res, next) {
@@ -38,7 +36,7 @@ export default class UserController {
         else if (!await User.compareString(data.password, password)) next(new CustomErr(400, 'Password does not match user'));
         else {
           const response = User.prepareResponse(data);
-          res.status(200).set('token', response.token).send(response);
+          res.status(200).set('token', response.token).send({ data: response });
         }
       });
     } catch (error) {
