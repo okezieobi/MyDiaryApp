@@ -29,17 +29,14 @@ class User extends Model {
     });
   }
 
-  static verify(headers) {
-    return jwt.verify(headers.token, env.jwtSecret);
+  static verify(token) {
+    return jwt.verify(token, env.jwtSecret);
   }
 
   static checkToken(value) {
-    if (!validator.isJWT(value)) throw new Error('Token provided does not match Json Web Token format');
+    if (!validator.isJWT(value)) throw new CustomErrs(400, 'Token provided does not match Json Web Token format');
     const { userId } = User.verify(value);
-    if (!validator.isUUID(userId, 4)) throw new Error('Id from token does not match UUIDv4');
-    const placeholder = value;
-    placeholder.primaryKey = userId;
-    return placeholder;
+    if (!validator.isUUID(userId, 4)) throw new CustomErrs(400, 'Id from token does not match UUIDv4');
   }
 
   static prepareResponse({

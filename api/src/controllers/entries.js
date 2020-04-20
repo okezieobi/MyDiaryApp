@@ -10,7 +10,7 @@ export default class EntryController {
         } = await Entry.create({
           title: req.body.title,
           body: req.body.body,
-          userId: res.locals.userId,
+          UserId: res.locals.userId,
         }, { transaction: t });
         res.sendExtended(201, 'application/json', {
           data: {
