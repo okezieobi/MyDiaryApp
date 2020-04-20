@@ -16,14 +16,17 @@ export default class CustomErrs extends Error {
       res.sendExtended(400, 'application/json', { error: messages || err.message });
     } else if (err.statusCode) {
       res.sendExtended(err.statusCode, 'application/json', { error: err.clientErr });
+    } else if (err.details) {
+      messages = err.message.split('. ');
+      res.sendExtended(400, 'application/json', { error: messages });
     } else {
-      error(err);
-      res.sendStatus(500);
+      next(err);
     }
   }
 
 
-  static throwErr(err) {
-    throw err;
+  static handleServerErrors(err, req, res) {
+    error(err.message);
+    res.sendStatus(500);
   }
 }

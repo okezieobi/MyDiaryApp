@@ -8,7 +8,7 @@ import swaggerSpec from './configs/swagger';
 import CustomErrs from './errors/custom';
 import allRoutes from './routes/router';
 
-const { handleErrors } = CustomErrs;
+const { handleErrors, handleServerErrors } = CustomErrs;
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.get('/*', (req, res) => {
 
 app.response.sendExtended = function sendExtendedName(statusCode, type, response) {
   // code is intentionally kept simple for demonstration purpose
+  // copied from express docs
   return this.contentType(type)
     .status(statusCode)
     .send(response);
@@ -28,6 +29,6 @@ app.response.sendExtended = function sendExtendedName(statusCode, type, response
 
 allRoutes(app);
 
-app.use(handleErrors);
+app.use(handleErrors, handleServerErrors);
 
 export default app;

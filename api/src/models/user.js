@@ -1,10 +1,10 @@
 import {
-  Model, DataTypes, Sequelize, Op,
+  Model, DataTypes, Sequelize,
 } from 'sequelize';
 import validator from 'validator';
-import Joi from '@hapi/joi';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import Joi from '@hapi/joi';
 import env from '../configs/env';
 import CustomErrs from '../errors/custom';
 
@@ -13,13 +13,9 @@ const sequelize = new Sequelize(herokuPostgresURL || postgresURL, { dialect: 'po
 
 class User extends Model {
   static async hashString(password = '') {
-    try {
-      const salt = await bcrypt.genSalt(12);
-      const encrypted = await bcrypt.hash(password, salt);
-      return encrypted;
-    } catch (error) {
-      return error;
-    }
+    const salt = await bcrypt.genSalt(16);
+    const encrypted = await bcrypt.hash(password, salt);
+    return encrypted;
   }
 
   static async compareString(hashedPassword = '', password = '') {
@@ -50,31 +46,6 @@ class User extends Model {
     if (!validator.isJWT(value)) throw new Error('Token provided does not match Json Web Token format');
   }
 
-  static authUser() {
-    return Joi.object({
-      token: Joi.string().required().empty().custom(this.checkToken, 'Validate token')
-        .messages({
-          'string.base': 'Token must be string type',
-          'string.empty': 'Please include a valid token with this request',
-          'any.required': 'Token is required',
-        }),
-      user: Joi.string().required().empty().max(256)
-        .messages({
-          'string.base': 'Username or email must be string type',
-          'string.empty': 'Username or email provided is empty, lease signin or signup',
-          'any.required': 'Username or email is required',
-          'string.max': 'Username or email must be at most {#limit} characters long',
-        }),
-      password: Joi.string().required().empty().max(256)
-        .messages({
-          'string.base': 'Password or email must be string type',
-          'string.empty': 'Please enter your password',
-          'any.required': 'Username or email is required',
-        }),
-    }).without('token', ['user', 'password'])
-      .messages({ 'object.without': 'Sending request with both token and signin credentials is not allowed' });
-  }
-
   static prepareResponse({
     id, fullName, username, email, type, createdAt,
   }) {
@@ -103,9 +74,6 @@ User.init({
       notNull: {
         msg: 'Full name is required',
       },
-      checkLength(val) {
-        if (!validator.isLength(val, { max: 256 })) throw new Error(`Full name at ${val} must not exceed 256`);
-      },
       notEmpty: {
         msg: 'Please enter your full name',
       },
@@ -118,9 +86,6 @@ User.init({
     validate: {
       notNull: {
         msg: 'Username is required',
-      },
-      checkLength(val) {
-        if (!validator.isLength(val, { max: 256 })) throw new Error(`Username at ${val} must not exceed 256`);
       },
       notEmpty: {
         msg: 'Please enter a username',
@@ -137,9 +102,6 @@ User.init({
       },
       isEmail: {
         msg: 'Input does not match email format',
-      },
-      checkLength(val) {
-        if (!validator.isLength(val, { max: 256 })) throw new Error(`Email at ${val} must not exceed 256`);
       },
       notEmpty: {
         msg: 'Please enter an email',
@@ -159,7 +121,7 @@ User.init({
     },
   },
   type: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: 'Client',
     validate: {
       isIn: {
@@ -168,30 +130,69 @@ User.init({
       },
     },
   },
+  createdOn: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return Date(this.createdAt);
+    },
+  },
 },
 {
   hooks: {
     beforeCreate: async (user, options) => {
-      const placeholder = user;
-      const userExists = await User.findOne({
+      const emailExists = await User.findOne({
         where: {
-          [Op.or]: [{ email: user.email }, { username: user.username }],
+          email: user.email,
         },
         transaction: options.transaction,
       });
-      if (userExists) throw new CustomErrs(404, 'User with provided email or username already exists, please signin or signup with another email/username');
+      if (emailExists) throw new CustomErrs(400, `User with ${user.email} already exists, please signup with another email`);
+      const usernameExists = await User.findOne({
+        where: {
+          username: user.username,
+        },
+        transaction: options.transaction,
+      });
+      if (usernameExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another email`);
+      const placeholder = user;
       placeholder.password = await User.hashString(user.password);
     },
     afterCreate: (user) => {
       const placeholder = user;
       placeholder.token = User.generate(user);
-      placeholder.createdOn = Date(user.createdAt);
     },
   },
   sequelize,
   modelName: 'User',
 });
 
+const authSchema = Joi.object({
+  user: Joi.string().required().empty().max(256)
+    .messages({
+      'string.base': 'Username or email must be string type',
+      'string.empty': 'Username or email provided is empty, please signin or signup',
+      'any.required': 'Username or email is required',
+      'string.max': 'Username or email must be at most {#limit} characters long',
+    }),
+  password: Joi.string().required().empty()
+    .messages({
+      'string.base': 'Password must be string type',
+      'string.empty': 'Please enter your password',
+      'any.required': 'Password is required',
+    }),
+});
+
+const authToken = Joi.object({
+  token: Joi.string().required().empty().custom(User.checkToken, 'Validate token')
+    .messages({
+      'string.base': 'Token must be string type',
+      'string.empty': 'Please include a valid token with this request',
+      'any.required': 'Token is required',
+    }),
+});
+
 (async () => { await User.sync({ force: true, match: /mydiary/ }); })();
 
-export default User;
+export {
+  User, authSchema, authToken,
+};

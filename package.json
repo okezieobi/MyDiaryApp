@@ -58,7 +58,6 @@
     "dotenv": "",
     "express": "",
     "jsonwebtoken": "",
-    "luxon": "",
     "pg": "",
     "pg-hstore": "",
     "pg-promise": "",
@@ -66,9 +65,7 @@
     "sequelize": "",
     "swagger-jsdoc": "",
     "swagger-ui-express": "",
-    "uuid": "",
-    "validator": "",
-    "winston": ""
+    "validator": ""
   },
   "heroku-run-build-script": true
 }
