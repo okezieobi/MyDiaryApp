@@ -24,7 +24,7 @@
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "pretest": "NODE_ENV=test npm run migrate:undo && NODE_ENV=test npm run migrate",
     "seed": "npx sequelize-cli db:seed:all",
-    "undo:seed": "npx sequelize-cli db:seed:undo"
+    "seed:undo": "npx sequelize-cli db:seed:undo"
   },
   "repository": {
     "type": "git",
