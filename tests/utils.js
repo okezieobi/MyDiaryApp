@@ -1,40 +1,43 @@
 /* eslint-disable no-console */
-import chai, {
-  expect,
-} from 'chai';
-import chaiHttp from 'chai-http';
-import DbConnect from '../api/src/db/database';
-import UserModel from '../api/src/models/user';
-import app from '../api/src';
+import supertest from 'supertest';
+import sequelize from '../api/src/db/connect';
+import { User } from '../api/src/models';
+import app from '../api/src/app';
 import { userSeeds } from '../mocks/index';
-import token from '../api/src/utils/jwt';
 
-const { sequelize } = new DbConnect();
+const { error } = console;
 
 class Test {
+  constructor() {
+    this.request = supertest;
+    this.UserModel = User;
+    this.app = app;
+    this.sequelize = sequelize;
+  }
+
   static async deleteData() {
     try {
       await sequelize.transaction(async (t) => {
-        await UserModel.destroy({ truncate: true }, { transaction: t });
+        await User.destroy({ truncate: true }, { transaction: t });
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      throw await error(err);
     }
   }
 
   static async addUsers() {
     try {
       await sequelize.transaction(async (t) => {
-        await UserModel.create(userSeeds[0], { transaction: t });
-        await UserModel.create(userSeeds[1], { transaction: t });
+        await User.create(userSeeds[0], { transaction: t });
+        await User.create(userSeeds[1], { transaction: t });
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      throw await error(err);
     }
   }
 
   static generateToken(id) {
-    return token.generate(id);
+    return User.generate(id);
   }
 
   static getRandomArrayIndex(array) {
@@ -60,11 +63,4 @@ class Test {
   }
 }
 
-export {
-  expect,
-  chai,
-  chaiHttp,
-  app,
-  Test,
-  userSeeds,
-};
+export default Test;

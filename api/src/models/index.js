@@ -22,13 +22,14 @@ Entry.belongsTo(User, {
 
 (async () => {
   try {
-    await User.sync({ force: true, match: /mydiary/ });
-    await Entry.sync({ force: true, match: /mydiary/ });
+    await sequelize.authenticate();
+    await User.sync();
+    await Entry.sync();
   } catch (err) {
-    error(err);
+    throw await error(err);
   }
 })();
 
 export {
-  User, authSchema, authToken, Entry, sequelize,
+  User, authSchema, authToken, Entry,
 };

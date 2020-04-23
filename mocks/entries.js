@@ -1,15 +1,14 @@
-import { v4 as uuidv4 } from 'uuid';
 import userSeeds from './users';
 
 export default [
   {
-    id: uuidv4(),
-    entry: 'First diary entry',
+    title: 'First diary entry title',
+    body: 'First diary entry body',
     userId: userSeeds[0].id,
   },
   {
-    id: uuidv4(),
-    entry: '2nd diary entry',
+    title: '2nd diary entry title',
+    body: '2nd diary entry body',
     userId: userSeeds[1].id,
   },
 ];

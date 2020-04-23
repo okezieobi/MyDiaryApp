@@ -1,21 +1,18 @@
-import { v4 as uuidv4 } from 'uuid';
-import bcrypt from '../api/src/utils/bcrypt';
-
-const { hash } = bcrypt;
+import { User } from '../api/src/models/user';
 
 export default [
   {
-    id: uuidv4(),
+    id: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiNTIyMGE4OS1jZDgwLTQ0ZGYtYjBjOS1kY2FkZmM1NzU4M2YiLCJpYXQiOjE1ODc0MTY2MzMsImV4cCI6MTU4NzUwMzAzM30.7Pi32cEzfRdvoP09IxLgGSaJmj_eYQ8ZQ4eqs2vAhIg',
     fullName: 'Frank Okezie',
     username: 'Obiedere',
     email: 'foobar@mail.com',
-    hashedPassword: hash('456789Lovely'),
+    password: User.hashString('456789Lovely'),
   },
   {
-    id: uuidv4(),
+    id: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiNTIyMGE4OS1jZDgwLTQ0ZGYtYjBjOS1kY2FkZmM1NzU4M2YiLCJpYXQiOjE1ODc0MTY2MzMsImV4cCI6MTU4NzUwMzAzM30.7Pi32cEzfRdvoP09IxLgGSaJmj_eYQ8ZQ4eqs2vAhIh',
     fullName: 'Obi Franklyn',
     username: 'Ekemezie',
     email: 'barfoo@mail.com',
-    hashedPassword: hash('456789Lovely'),
+    password: User.hashString('456789Lovely'),
   },
 ];
