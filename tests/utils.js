@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import sequelize from '../api/src/db/connect';
 import { User } from '../api/src/models';
 import app from '../api/src/app';
-import { userSeeds } from '../mocks/index';
+import { userSeeds, entrySeeds } from '../mocks/index';
 
 const { error } = console;
 
@@ -13,6 +13,8 @@ class Test {
     this.UserModel = User;
     this.app = app;
     this.sequelize = sequelize;
+    this.userSeeds = userSeeds;
+    this.entrySeeds = entrySeeds;
   }
 
   static async deleteData() {

@@ -3,7 +3,7 @@ import Test from '../utils';
 const {
   deleteData, createEmailVarChar, createVarChars, returnRandomValue,
 } = Test;
-const { request, app } = new Test();
+const { request, app, userSeeds } = new Test();
 
 describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', () => {
   /*
@@ -23,14 +23,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
   it('Should create a User at "/api/v1/auth/signup" with POST if all request inputs are valid', async (done) => {
     // jest.setTimeout(45000);
 
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-
-    const response = await request(app).post('/api/v1/auth/signup').send(testData);
+    const response = await request(app).post('/api/v1/auth/signup').send(userSeeds[1]);
     expect(response.status).toEqual(201);
     // expect(response.body).toBe('object');
     // expect(response.body).to.have.property('status').to.be.a('number').to.equal(201);
