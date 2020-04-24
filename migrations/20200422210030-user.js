@@ -1,6 +1,6 @@
 import queries from '../sql/migrations/20200422210030-user';
 
-module.exports = {
+export default {
   up: async (queryInterface, Sequelize) => queryInterface
     .sequelize.query(queries.up, { type: Sequelize.QueryTypes.Raw }), /*
       Add altering commands here.

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { userSeeds } from '../mocks';
 
-module.exports = {
+export default {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Users', [userSeeds[0]]),
   /*
       Add altering commands here.

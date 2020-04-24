@@ -48,6 +48,7 @@ class User extends Model {
       username,
       email,
       type,
+      status: 200,
       createdOn: Date(createdAt),
       token: this.generate(id),
     };
@@ -156,6 +157,8 @@ User.init({
     afterCreate: (user) => {
       const placeholder = user;
       placeholder.token = User.generate(user);
+      placeholder.status = 201;
+
     },
   },
   sequelize,

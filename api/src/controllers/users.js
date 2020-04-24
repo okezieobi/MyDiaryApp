@@ -9,9 +9,9 @@ export default class UserController {
     try {
       await sequelize.transaction(async (t) => {
         const {
-          token, fullName, email, id, username, type, createdOn,
+          token, fullName, email, id, username, type, createdOn, status,
         } = await User.create(body, { transaction: t });
-        res.status(201).set('token', token).send({
+        res.status(status).set('token', token).send({
           data: {
             id, fullName, email, username, type, createdOn, token,
           },

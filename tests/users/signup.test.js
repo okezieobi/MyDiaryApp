@@ -20,14 +20,23 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
   });
 */
 
-  it('Should create a User at "/api/v1/auth/signup" with POST if all request inputs are valid', async (done) => {
+  it('Should create a User at "/api/v1/auth/signup" with POST if all request inputs are valid', (done) => {
     // jest.setTimeout(45000);
 
-    const response = await request(app).post('/api/v1/auth/signup').send(userSeeds[1]);
-    expect(response.status).toEqual(201);
-    // expect(response.body).toBe('object');
-    // expect(response.body).to.have.property('status').to.be.a('number').to.equal(201);
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send(userSeeds[1])
+      .set('Accept', 'application/json')
+      .expect(201, done);
     /*
+    expect.objectContaining(response);
+    expect(response.status).toEqual(201);
+    expect(response).toHaveProperty('body');
+    expect.objectContaining(response.body);
+    expect(response.body).toHaveProperty('data');
+    expect.objectContaining(response.body.data);
+    expect(response.body.data).toHaveProperty('id');
+    expect.stringContaining(response.body.data.id);
     expect(response.body).to.have.property('data').to.be.an('object');
     expect(response.body.data).to.have.property('id').to.be.a('string');
     expect(response.body.data).to.have.property('fullName').to.be.a('string').to.equal(testData.fullName);
@@ -38,7 +47,6 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
     expect(response.body).to.have.property('token').to.be.a('string');
     expect(response.header).to.have.property('token').to.be.a('string');
     */
-    await done();
   });
 
   /*

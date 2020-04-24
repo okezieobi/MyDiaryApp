@@ -23,6 +23,7 @@ Entry.belongsTo(User, {
 (async () => {
   try {
     await sequelize.authenticate();
+    // enable option force: true and copy generated sql for skeleton migration
     await User.sync();
     await Entry.sync();
   } catch (err) {
