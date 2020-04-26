@@ -63,6 +63,14 @@ class Test {
   static createEmailVarChar(userLength, domainLength) {
     return `${Test.createVarChars(userLength)}@${Test.createVarChars(domainLength)}.${Test.createVarChars(3)}`;
   }
+
+  static isResPropNumber(res, args) {
+    if (typeof res[args] !== 'number') throw new Error(`Expected number but got ${typeof prop}`);
+  }
+
+  static isResPropString(prop) {
+    if (typeof prop !== 'string') throw new Error(`Expected string but got ${typeof prop}`);
+  }
 }
 
 export default Test;

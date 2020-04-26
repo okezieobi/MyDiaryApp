@@ -68,6 +68,10 @@ User.init({
       notNull: {
         msg: 'Full name is required',
       },
+      len: {
+        args: [1, 256],
+        msg: 'Length of full name must be between 1 and 256 characters',
+      },
       notEmpty: {
         msg: 'Please enter your full name',
       },
@@ -81,6 +85,10 @@ User.init({
       notNull: {
         msg: 'Username is required',
       },
+      len: {
+        args: [1, 256],
+        msg: 'Length of username must be between 1 and 256 characters',
+      },
       notEmpty: {
         msg: 'Please enter a username',
       },
@@ -93,6 +101,10 @@ User.init({
     validate: {
       notNull: {
         msg: 'Email is required',
+      },
+      len: {
+        args: [1, 256],
+        msg: 'Length of email must be between 1 and 256 characters',
       },
       isEmail: {
         msg: 'Input does not match email format',
@@ -158,11 +170,18 @@ User.init({
       const placeholder = user;
       placeholder.token = User.generate(user);
       placeholder.status = 201;
-
     },
   },
   sequelize,
   modelName: 'User',
+  validate: {
+    attributesAreString() {
+      if (typeof this.fullName !== 'string') throw new Error('Full name provided must be string type');
+      else if (typeof this.username !== 'string') throw new Error('Username provided must be string type');
+      else if (typeof this.email !== 'string') throw new Error('Email provided must be string type');
+      else if (typeof this.password !== 'string') throw new Error('Password provided must be string type');
+    },
+  },
 });
 
 const authSchema = Joi.object({

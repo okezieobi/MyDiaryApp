@@ -2,7 +2,7 @@
 import { userSeeds } from '../mocks';
 
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Users', [userSeeds[0]]),
+  up: async (queryInterface) => queryInterface.bulkInsert('Users', [userSeeds[0]]),
   /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
@@ -15,7 +15,7 @@ export default {
     */
 
 
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Users', null, {}),
+  down: async (queryInterface) => queryInterface.bulkDelete('Users', null, {}),
   /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.

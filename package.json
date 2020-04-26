@@ -22,7 +22,7 @@
     "heroku-postbuild": "npm run build-client && npm run build",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
-    "pretest": "NODE_ENV=test npm run migrate:undo && NODE_ENV=test npm run migrate && NODE_ENV=test npm run seed",
+    "pretest-server": "NODE_ENV=test npm run migrate:undo && NODE_ENV=test npm run migrate && NODE_ENV=test npm run seed",
     "seed": "npx sequelize-cli db:seed:all",
     "seed:undo": "npx sequelize-cli db:seed:undo"
   },
@@ -54,6 +54,8 @@
     "eslint-plugin-react-hooks": "^3.0.0",
     "faker": "^4.1.0",
     "jest": "^25.4.0",
+    "jest-chain": "^1.1.5",
+    "jest-extended": "^0.11.5",
     "nodemon": "",
     "nyc": "",
     "sequelize-cli": "",

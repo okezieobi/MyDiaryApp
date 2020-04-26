@@ -53,6 +53,12 @@ Entry.init({
 {
   sequelize,
   modelName: 'Entry',
+  validate: {
+    attributesAreString() {
+      if (typeof this.title !== 'string') throw new Error('Entry title provided must be string type');
+      else if (typeof this.body !== 'string') throw new Error('Entry body provided must be string type');
+    },
+  },
 });
 
 export default Entry;
