@@ -14,7 +14,7 @@ export default class CustomErrs extends Error {
       arrayErrs = err.message.split(',');
       messages = arrayErrs.map((string) => string.substring(string.lastIndexOf(':') + 2));
       res.sendExtended(400, 'application/json', { error: messages || err.message });
-    } else if (err.name === 'SequelizeDatabeError') {
+    } else if (err.name === 'SequelizeDatabaseError') {
       res.sendExtended(400, 'application/json', { error: err.message });
     } else if (err.statusCode) {
       res.sendExtended(err.statusCode, 'application/json', { error: err.clientErr });

@@ -159,7 +159,7 @@ User.init({
         transaction: options.transaction,
       });
       if (emailExists && !usernameExists) throw new CustomErrs(400, `User with ${user.email} already exists, please signup with another email`);
-      else if (usernameExists && !emailExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another email`);
+      else if (usernameExists && !emailExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another username`);
       else if (emailExists && usernameExists) throw new CustomErrs(400, `User(s) with ${user.email} and ${user.username} already exists, please signup with another email and username`);
       else {
         const placeholder = user;

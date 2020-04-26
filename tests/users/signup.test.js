@@ -1,7 +1,7 @@
 import Test from '../utils';
 
 const {
-  deleteData, createEmailVarChar,
+  createEmailVarChar,
   createVarChars, returnRandomValue,
 } = Test;
 const { request, app, userSeeds } = new Test();
@@ -131,7 +131,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
       .send(testData)
       .then(({ body: { error }, status }) => {
         expect(status).toBeNumber().toEqual(400);
-        expect(error).toBeString().toEqual(`User(s) with ${userSeeds[0].email} and ${userSeeds[0].username} already exists, please signup with another email and username`);
+        expect(error).toBeString().toEqual(`User(s) with ${testData.email} and ${testData.username} already exists, please signup with another email and username`);
         done();
       });
   });
@@ -148,203 +148,25 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
       .send(testData)
       .then(({ body: { error }, status }) => {
         expect(status).toBeNumber().toEqual(400);
-        expect(error).toBeString().toEqual(`User with ${userSeeds[0].email} already exists, please signup with another email`);
+        expect(error).toBeString().toEqual(`User with ${testData.email} already exists, please signup with another email`);
         done();
       });
   });
 
-  /*
-  it('Should NOT create a User at "/api/v1/auth/signup" if username is not sent in request', async () => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if username is already registered', (done) => {
     const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
+      fullName: 'Full name one',
+      email: 'email@email.com',
+      password: 'password one',
+      username: userSeeds[0].username,
     };
-    delete testData.username;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username is required');
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send(testData)
+      .then(({ body: { error }, status }) => {
+        expect(status).toBeNumber().toEqual(400);
+        expect(error).toBeString().toEqual(`User with ${testData.username} already exists, please signup with another username`);
+        done();
+      });
   });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if username is more than 128 characters', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.username = createVarChars(200);
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Username must be less than 128 characters');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user full name is a falsy value', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.fullName = returnRandomValue(undefined, '', null, NaN, 0);
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user full name is not sent in request', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    delete testData.fullName;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user full name is more than 128 chars', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.fullName = createVarChars(200);
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Full name must be less than 128 characters');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email is a falsy value', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.email = returnRandomValue(undefined, '', null, NaN, 0);
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email is not sent in request', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    delete testData.email;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email format is wrong', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.email = returnRandomValue('haha@com', createEmailVarChar(200, 8));
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Email format is wrong OR is more than 128 characters');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user email has already been registered', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Okezieobi',
-    };
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('User exists, user should please sign in with email or username');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user username has already been registered', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mamapapa@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('User exists, user should please sign in with email or username');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is a falsy value', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = returnRandomValue(undefined, '', null, NaN, 0);
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is not sent in request', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    delete testData.password;
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password is required');
-  });
-
-  it('Should NOT create a User at "/api/v1/auth/signup" if user password is not 128 characters maximum', async () => {
-    const testData = {
-      fullName: 'Frank',
-      email: 'mama@mail.com',
-      password: '1234AOdBcd!',
-      username: 'Obiedere',
-    };
-    testData.password = returnRandomValue(createVarChars(200), createVarChars(4));
-    const response = await chai.request(app).post('/api/v1/auth/signup').send(testData);
-    expect(response).to.have.status(400);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
-    expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password must be eight characters minimum, 128 characters maximum');
-  });
-  */
 });

@@ -3,7 +3,8 @@ import queries from '../sql/migrations/20200425113042-User';
 
 export default {
   up: async (queryInterface) => queryInterface
-    .sequelize.query(queries.up, { type: Sequelize.QueryTypes.Raw }), /*
+    .sequelize.query(queries.up, { type: Sequelize.QueryTypes.Raw }),
+  /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
 
