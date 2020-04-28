@@ -58,7 +58,7 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
       });
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signup" if username, fullName, email and password are null or undefined or NaN', (done) => {
+  it('Should NOT create a User at "/api/v1/auth/signup" if username, fullName, email and password are null or undefined', (done) => {
     const testData = {
       fullName: returnRandomValue(null, undefined),
       email: returnRandomValue(null, undefined),
@@ -104,10 +104,10 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
 
   it('Should NOT create a User at "/api/v1/auth/signup" if username, fullName, email and password are not string type', (done) => {
     const testData = {
-      fullName: returnRandomValue(904),
-      email: returnRandomValue(4499),
-      password: returnRandomValue(9848484),
-      username: returnRandomValue(40940494),
+      fullName: returnRandomValue(904, NaN),
+      email: returnRandomValue(4499, NaN),
+      password: returnRandomValue(9848484, NaN),
+      username: returnRandomValue(40940494, NaN),
     };
     request(app)
       .post('/api/v1/auth/signup')
