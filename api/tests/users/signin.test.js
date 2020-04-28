@@ -1,50 +1,81 @@
-import {
-  Test,
-  expect,
-  chai,
-  chaiHttp,
-  app,
-} from '../utils';
+import Test from '../utils';
 
 const {
-  deleteData, addUsers, createEmailVarChar, createVarChars, returnRandomValue,
+  createEmailVarChar,
+  createVarChars, returnRandomValue,
 } = Test;
-
-chai.use(chaiHttp);
+const { request, app, userSeeds } = new Test();
 
 describe('Test endpoints at "/api/v1/auth/signin" to sign in a User with POST', () => {
-  before(async () => {
-    await deleteData();
-  });
-
-  before(async () => {
-    await addUsers();
-  });
-
-  after(async () => {
-    await deleteData();
-  });
-
-  it('Should signin in a User at "/api/v1/auth/signin" with POST if all request inputs are valid', async () => {
-    const data = { username: 'Obiedere', email: 'foobar@mail.com' };
+  it('Should signin in a User at "/api/v1/auth/signin" with POST if all request inputs are valid', (done) => {
     const testData = {
-      user: returnRandomValue(data.email, data.username),
-      password: '456789Lovely',
+      user: returnRandomValue(userSeeds[0].email, userSeeds[0].username),
+      password: 'password one',
     };
-    const response = await chai.request(app).post('/api/v1/auth/signin').send(testData);
-    expect(response).to.have.status(200);
-    expect(response.body).to.be.an('object');
-    expect(response.body).to.have.property('status').to.be.a('number').to.equal(200);
-    expect(response.body).to.have.property('data').to.be.an('object');
-    expect(response.body.data).to.have.property('id').to.be.a('string');
-    expect(response.body.data).to.have.property('fullName').to.be.a('string');
-    expect(response.body.data).to.have.property('username').to.be.a('string').to.equal(data.username);
-    expect(response.body.data).to.have.property('email').to.be.a('string').to.equal(data.email);
-    expect(response.body.data).to.have.property('type').to.be.a('string').to.equal('Client');
-    expect(response.body).to.have.property('token').to.be.a('string');
-    expect(response.header).to.have.property('token').to.be.a('string');
-  }).timeout(3000);
+    request(app)
+      .post('/api/v1/auth/signin')
+      .send(testData)
+      .then(({ header: { token }, body: { data }, status }) => {
+        expect(status).toBeNumber().toEqual(200);
+        expect(token).toBeString();
+        expect(data).toBeObject().toContainKeys(['id', 'fullName', 'username', 'email', 'type', 'createdOn', 'token']);
+        expect(data.id).toBeString();
+        expect(data.fullName).toBeString();
+        expect(data.username).toBeString();
+        expect(data.email).toBeString();
+        expect(data.token).toBeString();
+        expect(data.type).toBeString().toEqual('Client');
+        expect(data.createdOn).toBeString();
+        done();
+      });
+  });
 
+  it('Should NOT create a User at "/api/v1/auth/signin" if user and password are empty strings', (done) => {
+    const testData = {
+      user: '',
+      password: '',
+    };
+    request(app)
+      .post('/api/v1/auth/signin')
+      .send(testData)
+      .then(({ body: { error }, status }) => {
+        expect(status).toBeNumber().toEqual(400);
+        expect(error).toBeArray().toIncludeAnyMembers(['Please enter your username or email', 'Please enter your password']);
+        done();
+      });
+  });
+
+  it('Should NOT create a User at "/api/v1/auth/signin" if user and password are falsy values', (done) => {
+    const testData = {
+      user: returnRandomValue(undefined, null),
+      password: returnRandomValue(undefined, null),
+    };
+    request(app)
+      .post('/api/v1/auth/signin')
+      .send(testData)
+      .then(({ body: { error }, status }) => {
+        expect(status).toBeNumber().toEqual(400);
+        expect(error).toBeArray().toIncludeAnyMembers(['Username or email is required', 'Password is required']);
+        done();
+      });
+  });
+
+  it('Should NOT create a User at "/api/v1/auth/signin" if user and password are not strings', (done) => {
+    const testData = {
+      user: returnRandomValue(878, NaN),
+      password: returnRandomValue(444, NaN),
+    };
+    request(app)
+      .post('/api/v1/auth/signin')
+      .send(testData)
+      .then(({ body: { error }, status }) => {
+        expect(status).toBeNumber().toEqual(400);
+        expect(error).toBeArray().toIncludeAnyMembers(['Username or email must be data type', 'Password must be string data type']);
+        done();
+      });
+  });
+
+  /*
   it('Should NOT sign in a User at "/api/v1/auth/signin" if user email or username is a falsy value', async () => {
     const data = { username: 'Obiedere', email: 'foobar@mail.com' };
     const testData = {
@@ -156,4 +187,5 @@ describe('Test endpoints at "/api/v1/auth/signin" to sign in a User with POST', 
     expect(response.body).to.have.property('status').to.be.a('number').to.equal(400);
     expect(response.body).to.have.property('error').to.be.a('string').to.equal('Password does not match user');
   });
+  */
 });

@@ -60,10 +60,10 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
 
   it('Should NOT create a User at "/api/v1/auth/signup" if username, fullName, email and password are null or undefined or NaN', (done) => {
     const testData = {
-      fullName: returnRandomValue(null, undefined, NaN),
-      email: returnRandomValue(null, undefined, NaN),
-      password: returnRandomValue(null, undefined, NaN),
-      username: returnRandomValue(null, undefined, NaN),
+      fullName: returnRandomValue(null, undefined),
+      email: returnRandomValue(null, undefined),
+      password: returnRandomValue(null, undefined),
+      username: returnRandomValue(null, undefined),
     };
     request(app)
       .post('/api/v1/auth/signup')
@@ -104,17 +104,17 @@ describe('Test endpoints at "/api/v1/auth/signup" to create a User with POST', (
 
   it('Should NOT create a User at "/api/v1/auth/signup" if username, fullName, email and password are not string type', (done) => {
     const testData = {
-      fullName: 904,
-      email: 4499,
-      password: 9848484,
-      username: 40940494,
+      fullName: returnRandomValue(904),
+      email: returnRandomValue(4499),
+      password: returnRandomValue(9848484),
+      username: returnRandomValue(40940494),
     };
     request(app)
       .post('/api/v1/auth/signup')
       .send(testData)
       .then(({ body: { error }, status }) => {
         expect(status).toBeNumber().toEqual(400);
-        expect(error).toBeArray().toIncludeAnyMembers(['Full name provided must be string type', 'Username provided must be string type', 'Email provided must be string type', 'Password provided must be string type']);
+        expect(error).toBeArray().toIncludeAnyMembers(['Full name provided must be string data type', 'Username provided must be string data type', 'Email provided must be string data type', 'Password provided must be string data type']);
         done();
       });
   });

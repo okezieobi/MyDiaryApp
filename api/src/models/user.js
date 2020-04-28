@@ -176,10 +176,10 @@ User.init({
   modelName: 'User',
   validate: {
     attributesAreString() {
-      if (typeof this.fullName !== 'string') throw new Error('Full name provided must be string type');
-      else if (typeof this.username !== 'string') throw new Error('Username provided must be string type');
-      else if (typeof this.email !== 'string') throw new Error('Email provided must be string type');
-      else if (typeof this.password !== 'string') throw new Error('Password provided must be string type');
+      if (typeof this.fullName !== 'string') throw new Error('Full name provided must be string data type');
+      else if (typeof this.username !== 'string') throw new Error('Username provided must be string data type');
+      else if (typeof this.email !== 'string') throw new Error('Email provided must be string data type');
+      else if (typeof this.password !== 'string') throw new Error('Password provided must be string data type');
     },
   },
 });
@@ -187,14 +187,14 @@ User.init({
 const authSchema = Joi.object({
   user: Joi.string().required().empty().max(256)
     .messages({
-      'string.base': 'Username or email must be string type',
+      'string.base': 'Username or email must be string data type',
       'string.empty': 'Username or email provided is empty, please signin or signup',
       'any.required': 'Username or email is required',
       'string.max': 'Username or email must be at most {#limit} characters long',
     }),
   password: Joi.string().required().empty()
     .messages({
-      'string.base': 'Password must be string type',
+      'string.base': 'Password must be string data type',
       'string.empty': 'Please enter your password',
       'any.required': 'Password is required',
     }),

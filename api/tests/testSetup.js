@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import 'jest-chain';
 import 'jest-extended';
 import concurrently from 'concurrently';

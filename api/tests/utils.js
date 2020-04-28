@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
+// eslint-disable-next-line import/no-extraneous-dependencies
 import supertest from 'supertest';
-import sequelize from '../api/src/db/connect';
-import { User } from '../api/src/models';
-import app from '../api/src/app';
+import sequelize from '../src/db/connect';
+import { User } from '../src/models';
+import app from '../src/app';
 import { userSeeds, entrySeeds } from '../mocks/index';
 
 const { error } = console;
