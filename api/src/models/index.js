@@ -1,5 +1,5 @@
 import sequelize from '../db/connect';
-import { User, authSchema, authToken } from './user';
+import User from './user';
 import Entry from './entry';
 
 const { error } = console;
@@ -24,13 +24,13 @@ Entry.belongsTo(User, {
   try {
     await sequelize.authenticate();
     // enable option force: true and copy generated sql for skeleton migration
-    await User.sync({ force: true });
-    await Entry.sync({ force: true });
+    await User.sync();
+    await Entry.sync();
   } catch (err) {
     throw await error(err);
   }
 })();
 
 export {
-  User, authSchema, authToken, Entry,
+  User, Entry,
 };

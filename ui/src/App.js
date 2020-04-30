@@ -1,31 +1,25 @@
 import React from 'react';
-import Signup from './components/users/signup';
-import Home from './components/users/home'
-import Dashboard from './components/users/dashboard';
-import Signin from './components/users/signin';
-// import logo from './logo.svg';
-import {
-  Switch,
-  Route,
-} from "react-router-dom";
+import logo from './logo.svg';
 import './App.css';
 
-const App = () => {
+function App() {
   return (
-    <Switch>
-      <Route path='/signup'>
-        <Signup />
-      </Route>
-      <Route path='/dashboard'>
-        <Dashboard />
-      </Route>
-      <Route path='/signin'>
-        <Signin />
-      </Route>
-      <Route path='/'>
-        <Home />
-      </Route>
-    </Switch>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 

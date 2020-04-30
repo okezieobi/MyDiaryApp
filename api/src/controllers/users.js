@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { User, authSchema } from '../models';
+import { User } from '../models';
 import CustomErr from '../errors/custom';
 import sequelize from '../db/connect';
 
@@ -24,7 +24,7 @@ export default class UserController {
 
   static async signin({ body: { user, password } }, res, next) {
     try {
-      await authSchema.validateAsync({ user, password }, { abortEarly: false });
+      await User.authSchema.validateAsync({ user, password }, { abortEarly: false });
       await sequelize.transaction(async (t) => {
         const data = await User.findOne({
           where: {
