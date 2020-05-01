@@ -18,12 +18,12 @@ app.use(cors(),
   express.urlencoded({ extended: true }),
   express.json(),
   cookieParser(),
-  express.static(path.join(__dirname, '../../ui/build')),
+  express.static(path.join(__dirname, '../../client/build')),
   logger('dev'));
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../ui/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
 });
 
 app.response.sendExtended = function sendExtendedName(statusCode, type, response) {
