@@ -1,16 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { BookOutlined } from '@material-ui/icons';
 
 export default () => <div className='' >
-    <AppBar>
+    <AppBar position='static' >
         <Toolbar>
-            <Typography>
+            <Typography variant='h1'>
                 <BookOutlined /> My Diary
             </Typography>
-            <Button component={Link} to='/signin' >
-                <Typography>Signin</Typography>
+            <Button className='home-title-button' href='/signin' >
+                <Typography variant='h4' >Signin</Typography>
             </Button>
         </Toolbar>
     </AppBar>

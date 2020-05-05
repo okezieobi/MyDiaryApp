@@ -127,15 +127,15 @@
 }
 
 .backgroundOne {
-  background-image: url('./backgrounds/undraw_Bibliophile_hwqc.svg');
+  background-image: url('./svg/undraw_Bibliophile_hwqc.svg');
 }
 
 .backgroundTwo {
-  background-image: url('./backgrounds//artOne.svg');
+  background-image: url('./svg/artOne.svg');
 }
 
 .backgroundThree {
-  background-image: url('./backgrounds//undraw_personal_notebook_sobb.svg');
+  background-image: url('./svg/undraw_personal_notebook_sobb.svg');
 }
 
 
