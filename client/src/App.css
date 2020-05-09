@@ -1,3 +1,27 @@
+
+.backgroundOne {
+  background-image: url('./svg/undraw_Bibliophile_hwqc.svg');
+}
+
+.backgroundTwo {
+  background-image: url('./svg/artOne.svg');
+}
+
+.backgroundThree {
+  background-image: url('./svg/undraw_personal_notebook_sobb.svg');
+}
+
+
+.backgroundProps {
+  background-size: cover;
+  height: 100vh;
+}
+
+
+
+
+
+/*
 .auth-error {
   color: orangered;
   font-size: xx-large;
@@ -126,24 +150,6 @@
   padding: 20vh 10vw 0 10vw;
 }
 
-.backgroundOne {
-  background-image: url('./svg/undraw_Bibliophile_hwqc.svg');
-}
-
-.backgroundTwo {
-  background-image: url('./svg/artOne.svg');
-}
-
-.backgroundThree {
-  background-image: url('./svg/undraw_personal_notebook_sobb.svg');
-}
-
-
-.backgroundProps {
-  background-size: cover;
-  height: 100vh;
-}
-
 .form {
   display: flex;
   flex-flow: column nowrap;
@@ -239,3 +245,4 @@
     justify-content: center;
   }
 }
+*/
