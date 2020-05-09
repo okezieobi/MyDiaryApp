@@ -4,10 +4,13 @@ import entryRoutes from './entries';
 import UserMiddleware from '../middleware/users';
 
 const router = Router();
+const version = Router();
 const { authUser } = UserMiddleware;
 
-userRoutes(router);
+router.use('/auth', userRoutes);
 router.use(authUser);
-entryRoutes(router);
+router.use('/entries', entryRoutes);
 
-export default (app) => app.use('/api/v1', router);
+version.use('/v1', router);
+
+export default router;

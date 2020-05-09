@@ -7,7 +7,7 @@ import logger from 'morgan';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './configs/swagger';
 import CustomErrs from './errors/custom';
-import allRoutes from './routes/router';
+import routes from './routes/router';
 
 const { handleErrors, handleServerErrors } = CustomErrs;
 
@@ -29,7 +29,7 @@ app.response.sendExtended = function sendExtendedName(statusCode, type, response
 };
 
 app.use(logger('dev'));
-allRoutes(app);
+app.use('/ap1', routes);
 app.use(handleErrors, handleServerErrors);
 
 export default app;

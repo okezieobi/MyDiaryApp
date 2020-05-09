@@ -1,8 +1,10 @@
+import { Router } from 'express';
 import EntryController from '../controllers/entries';
 
-export default (router) => {
-  const { createOne } = EntryController;
+const router = Router();
+const { createOne } = EntryController;
 
-  router.route('/entries')
-    .post(createOne);
-};
+router.route('/entries')
+  .post(createOne);
+
+export default router;
