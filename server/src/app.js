@@ -1,7 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import express from 'express';
-import path from 'path';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -17,14 +16,9 @@ const app = express();
 app.use(cors(),
   express.urlencoded({ extended: true }),
   express.json(),
-  cookieParser(),
-  express.static(path.join(__dirname, '../../client/build')),
-  logger('dev'));
+  cookieParser());
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
-});
 
 app.response.sendExtended = function sendExtendedName(statusCode, type, response) {
   // code is intentionally kept simple for demonstration purpose
@@ -34,8 +28,8 @@ app.response.sendExtended = function sendExtendedName(statusCode, type, response
     .send(response);
 };
 
+app.use(logger('dev'));
 allRoutes(app);
-
 app.use(handleErrors, handleServerErrors);
 
 export default app;

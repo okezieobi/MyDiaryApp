@@ -9,7 +9,7 @@ import debug from 'debug';
 import app from '../app';
 import env from '../configs/env';
 
-debug('myDiaryApp:server');
+debug('mydiaryapp:server');
 const { error, info } = console;
 
 /**
@@ -39,23 +39,25 @@ const normalizePort = (val) => {
   return false;
 };
 
-const terminate = (server, options = { coredump: false, timeout: 500 }) => {
+const terminate = (serverApp, options = { coredump: false, timeout: 500 }) => {
   // Exit function
-  const exit = code => {
-    options.coredump ? process.abort() : process.exit(code)
-  }
+  const exit = (code) => {
+    if (options.coredump) return process.abort();
+    return process.exit(code);
+  };
 
+  // eslint-disable-next-line no-unused-vars
   return (code, reason) => (err, promise) => {
     if (err && err instanceof Error) {
       // Log error information, use a proper logging library here :)
-      console.log(err.message, err.stack)
+      error(err.message, err.stack);
     }
 
     // Attempt a graceful shutdown
-    server.close(exit)
-    setTimeout(exit, options.timeout).unref()
-  }
-}
+    serverApp.close(exit);
+    setTimeout(exit, options.timeout).unref();
+  };
+};
 
 const port = normalizePort(env.appPort || '5000');
 
@@ -108,7 +110,7 @@ app.set('port', port);
 
 const exitHandler = terminate(server, {
   coredump: false,
-  timeout: 500
+  timeout: 500,
 });
 
 /**
@@ -119,7 +121,7 @@ server.listen(port, () => info(`App is live and listening on port ${env.appPort 
 server.on('error', onError);
 server.on('listening', onListening);
 
-process.on('uncaughtException', exitHandler(1, 'Unexpected Error'))
-process.on('unhandledRejection', exitHandler(1, 'Unhandled Promise'))
-process.on('SIGTERM', exitHandler(0, 'SIGTERM'))
-process.on('SIGINT', exitHandler(0, 'SIGINT'))
+process.on('uncaughtException', exitHandler(1, 'Unexpected Error'));
+process.on('unhandledRejection', exitHandler(1, 'Unhandled Promise'));
+process.on('SIGTERM', exitHandler(0, 'SIGTERM'));
+process.on('SIGINT', exitHandler(0, 'SIGINT'));

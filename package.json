@@ -1,0 +1,44 @@
+{
+  "name": "mydiaryapp",
+  "version": "1.0.0",
+  "description": "MyDiary is an online journal where users can pen down their thoughts and feelings.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev-server-client": "concurrently 'cd server && npm run dev' 'cd client && npm start'",
+    "preinstall": "cd client && npm i",
+    "postinstall": "cd server && npm i",
+    "prestart": "serve -s client/build",
+    "start": "cd server && npm start",
+    "test": "cd server && npm test",
+    "pretest": "cd client && npm test",
+    "coverage": "cd client && npm run coverage && cd .. && cd server && npm run coverage",
+    "build": "cd server && npm build",
+    "prebuild": "cd client && npm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/okezieobi/MyDiaryApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/okezieobi/MyDiaryApp/issues"
+  },
+  "homepage": "https://github.com/okezieobi/MyDiaryApp#readme",
+  "devDependencies": {
+    "concurrently": "",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1"
+  },
+  "dependencies": {
+    "serve": "^11.3.0"
+  }
+}
