@@ -32,5 +32,5 @@ Entry.belongsTo(User, {
 })();
 
 export {
-  User, Entry,
+  User, Entry, sequelize,
 };

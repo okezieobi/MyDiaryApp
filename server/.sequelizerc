@@ -1,9 +1,10 @@
 require("@babel/register");
+require('dotenv').config();
 
 const path = require('path');
 
 module.exports = {
-  'config': path.resolve('config', 'config.js'),
+  'url': process.env.POSTGRES_URL,
   'seeders-path': path.resolve('seeders'),
   'migrations-path': path.resolve('migrations')
 }

@@ -1,7 +1,6 @@
 import { Op } from 'sequelize';
-import { User } from '../models';
+import { User, sequelize } from '../models';
 import CustomErr from '../errors/custom';
-import sequelize from '../db/connect';
 
 
 export default class UserController {
@@ -33,8 +32,8 @@ export default class UserController {
           transaction: t,
         });
         if (!data) next(new CustomErr(404, 'User not registered, please signup'));
-        else if (!await User.compareString(data.password, password)) next(new CustomErr(400, 'Password does not match user'));
         else {
+          await User.compareString(data.password, password);
           const response = User.prepareResponse(data);
           res.status(200).set('token', response.token).send({ data: response });
         }

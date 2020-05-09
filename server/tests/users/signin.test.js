@@ -90,7 +90,7 @@ describe('Test endpoints at "/api/v1/auth/signin" to sign in a User with POST', 
       });
   });
 
-  it('Should NOT create a User at "/api/v1/auth/signin" if username or email ha not been registered ', (done) => {
+  it('Should NOT create a User at "/api/v1/auth/signin" if username or email has not been registered ', (done) => {
     const testData = {
       user: returnRandomValue(createVarChars(10), createEmailVarChar(10, 5)),
       password: userSeeds[0].password,

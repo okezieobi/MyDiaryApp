@@ -18,7 +18,7 @@ class User extends Model {
 
   static async compareString(hashedPassword = '', password = '') {
     const isMatch = await bcrypt.compare(password, hashedPassword);
-    return isMatch;
+    if (!isMatch) throw new CustomErrs(400, 'Password does not match user');
   }
 
   static generate(user) {
@@ -29,14 +29,11 @@ class User extends Model {
     });
   }
 
-  static verify(token) {
-    return jwt.verify(token, env.jwtSecret);
-  }
-
   static checkToken(value) {
     if (!validator.isJWT(value)) throw new CustomErrs(400, 'Token provided does not match Json Web Token format');
-    const { userId } = User.verify(value);
+    const { userId } = jwt.verify(value, env.jwtSecret);
     if (!validator.isUUID(userId, 4)) throw new CustomErrs(400, 'Id from token does not match UUIDv4');
+    return userId;
   }
 
   static prepareResponse({
@@ -143,46 +140,46 @@ User.init({
     },
   },
 },
-  {
-    hooks: {
-      beforeCreate: async (user, options) => {
-        const emailExists = await User.findOne({
-          where: {
-            email: user.email,
-          },
-          transaction: options.transaction,
-        });
-        const usernameExists = await User.findOne({
-          where: {
-            username: user.username,
-          },
-          transaction: options.transaction,
-        });
-        if (emailExists && !usernameExists) throw new CustomErrs(400, `User with ${user.email} already exists, please signup with another email`);
-        else if (usernameExists && !emailExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another username`);
-        else if (emailExists && usernameExists) throw new CustomErrs(400, `User(s) with ${user.email} and ${user.username} already exists, please signup with another email and username`);
-        else {
-          const placeholder = user;
-          placeholder.password = await User.hashString(user.password);
-        }
-      },
-      afterCreate: (user) => {
+{
+  hooks: {
+    beforeCreate: async (user, options) => {
+      const emailExists = await User.findOne({
+        where: {
+          email: user.email,
+        },
+        transaction: options.transaction,
+      });
+      const usernameExists = await User.findOne({
+        where: {
+          username: user.username,
+        },
+        transaction: options.transaction,
+      });
+      if (emailExists && !usernameExists) throw new CustomErrs(400, `User with ${user.email} already exists, please signup with another email`);
+      else if (usernameExists && !emailExists) throw new CustomErrs(400, `User with ${user.username} already exists, please signup with another username`);
+      else if (emailExists && usernameExists) throw new CustomErrs(400, `User(s) with ${user.email} and ${user.username} already exists, please signup with another email and username`);
+      else {
         const placeholder = user;
-        placeholder.token = User.generate(user);
-        placeholder.status = 201;
-      },
+        placeholder.password = await User.hashString(user.password);
+      }
     },
-    sequelize,
-    modelName: 'User',
-    validate: {
-      attributesAreString() {
-        if (typeof this.fullName !== 'string') throw new Error('Full name provided must be string data type');
-        else if (typeof this.username !== 'string') throw new Error('Username provided must be string data type');
-        else if (typeof this.email !== 'string') throw new Error('Email provided must be string data type');
-        else if (typeof this.password !== 'string') throw new Error('Password provided must be string data type');
-      },
+    afterCreate: (user) => {
+      const placeholder = user;
+      placeholder.token = User.generate(user);
+      placeholder.status = 201;
     },
-  });
+  },
+  sequelize,
+  modelName: 'User',
+  validate: {
+    attributesAreString() {
+      if (typeof this.fullName !== 'string') throw new Error('Full name provided must be string data type');
+      else if (typeof this.username !== 'string') throw new Error('Username provided must be string data type');
+      else if (typeof this.email !== 'string') throw new Error('Email provided must be string data type');
+      else if (typeof this.password !== 'string') throw new Error('Password provided must be string data type');
+    },
+  },
+});
 
 User.authSchema = Joi.object({
   user: Joi.string().required().empty().max(256)
@@ -201,7 +198,7 @@ User.authSchema = Joi.object({
 });
 
 User.authToken = Joi.object({
-  token: Joi.string().required().empty().custom(User.checkToken, 'Validate token')
+  token: Joi.string().required().empty()
     .messages({
       'string.base': 'Token must be string type',
       'string.empty': 'Please include a valid token with this request',
@@ -210,4 +207,4 @@ User.authToken = Joi.object({
 });
 
 
-export default User
+export default User;

@@ -1,5 +1,4 @@
-import { Entry } from '../models';
-import sequelize from '../db/connect';
+import { Entry, sequelize } from '../models';
 
 export default class EntryController {
   static async createOne(req, res, next) {

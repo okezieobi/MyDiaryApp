@@ -19,7 +19,7 @@
     "test": "NODE_ENV=test jest tests/run.test.js --watchAll=false --detectOpenHandles",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
-    "pretest-server": "NODE_ENV=test npm run migrate:undo && NODE_ENV=test npm run migrate && NODE_ENV=test npm run seed",
+    "pretest": "NODE_ENV=test npm run migrate:undo && NODE_ENV=test npm run migrate && NODE_ENV=test npm run seed",
     "seed": "npx sequelize-cli db:seed:all",
     "seed:undo": "npx sequelize-cli db:seed:undo"
   },

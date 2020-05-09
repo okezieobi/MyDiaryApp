@@ -1,4 +1,4 @@
-import queries from '../sql/migrations/20200422210030-user';
+import queries from '../sql/20200422210030-user';
 
 export default {
   up: async (queryInterface, Sequelize) => queryInterface

@@ -1,41 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import supertest from 'supertest';
-import sequelize from '../src/db/connect';
 import { User } from '../src/models';
 import app from '../src/app';
 import { userSeeds, entrySeeds } from '../mocks/index';
 
-const { error } = console;
-
 class Test {
   constructor() {
     this.request = supertest;
-    this.UserModel = User;
     this.app = app;
-    this.sequelize = sequelize;
     this.userSeeds = userSeeds;
     this.entrySeeds = entrySeeds;
-  }
-
-  static async deleteData() {
-    try {
-      await sequelize.transaction(async (t) => {
-        await User.destroy({ truncate: true }, { transaction: t });
-      });
-    } catch (err) {
-      throw await error(err);
-    }
-  }
-
-  static async addUsers() {
-    try {
-      await sequelize.transaction(async (t) => {
-        await User.create(userSeeds[0], { transaction: t });
-        await User.create(userSeeds[1], { transaction: t });
-      });
-    } catch (err) {
-      throw await error(err);
-    }
   }
 
   static generateToken(id) {
