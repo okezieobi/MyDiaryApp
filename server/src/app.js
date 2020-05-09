@@ -29,7 +29,7 @@ app.response.sendExtended = function sendExtendedName(statusCode, type, response
 };
 
 app.use(logger('dev'));
-app.use('/ap1', routes);
+app.use('/api', routes);
 app.use(handleErrors, handleServerErrors);
 
 export default app;

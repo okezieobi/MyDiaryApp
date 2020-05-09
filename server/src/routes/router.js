@@ -13,4 +13,4 @@ router.use('/entries', entryRoutes);
 
 version.use('/v1', router);
 
-export default router;
+export default version;

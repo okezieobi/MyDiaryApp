@@ -27,8 +27,8 @@ export default class CustomErrs extends Error {
   }
 
 
-  static handleServerErrors(err, req, res) {
-    error(err.message);
+  static handleServerErrors({ message, trace }, req, res) {
+    error(message, trace);
     res.sendStatus(500);
   }
 }
