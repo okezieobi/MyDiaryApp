@@ -1,20 +1,16 @@
 import React from 'react';
-// import Signup from './components/users/signup';
-import Home from './components/layouts/Home';
-// import Dashboard from './components/users/dashboard';
-// import Signin from './components/users/signin';
-// import logo from './logo.svg';
-import {
-  Switch,
-  Route,
-} from "react-router-dom";
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import Dashboard from './components/layouts/dashboard';
 
-export default () => (
-  <Switch>
-
-    <Route path='/'>
-      <Home />
-    </Route>
-  </Switch>
-);
+export default function App() {
+  return (
+    <>
+      <Switch>
+        <Route path="/dashboard">
+          <Dashboard />
+        </Route>
+        <Route path="/" />
+      </Switch>
+    </>
+  );
+}
