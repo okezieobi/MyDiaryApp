@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-export default () => {
+export default ({ btnText }) => {
     const { root, title } = useStyles();
 
     return (
@@ -23,7 +23,7 @@ export default () => {
                         <BookOutlined />
                     </IconButton>
                     <Typography variant='h6' className={title} >My Diary</Typography>
-                    <Button color='inherit' >Login</Button>
+                    <Button color='inherit' >{btnText}</Button>
                 </Toolbar>
             </AppBar>
         </div>

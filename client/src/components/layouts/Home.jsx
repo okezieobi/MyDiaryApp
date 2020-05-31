@@ -5,7 +5,7 @@ import Header from '../templates/Header'
 export default () => {
     return (
         <div className='backgroundOne backgroundProps'>
-            <Header />
+            <Header btnText="Login" />
         </div>
     )
 }
