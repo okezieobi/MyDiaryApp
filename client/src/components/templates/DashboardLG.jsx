@@ -103,9 +103,9 @@ function Dashboard({ content }, { children, window }) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Modal childComponent={<CardComponent classAttr={classes.card} />} text="Create Report" color="inherit" />
+          <Modal childComponent={<CardComponent classAttr={classes.card} />} text="Create Entry" color="inherit" />
           <Typography className={classes.headerSpace}>
-            Your Right
+            My Diary
           </Typography>
           <Button color="inherit">
             Logout

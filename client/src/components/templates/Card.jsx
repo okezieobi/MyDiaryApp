@@ -42,8 +42,8 @@ CardComponent.propTypes = {
 };
 
 CardComponent.defaultProps = {
-  title: 'Report Title',
-  body: 'Report Body',
+  title: 'Title',
+  body: 'Body',
   actionOne: 'Edit',
   actionTwo: 'Delete',
 };

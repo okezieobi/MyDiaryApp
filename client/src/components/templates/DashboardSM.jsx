@@ -111,7 +111,7 @@ function Dashboard({ content }) {
             <Menu />
           </IconButton>
           <Typography className={classes.headerSpace}>
-            Your Right
+            My Diary
           </Typography>
           <IconButton edge="end" color="inherit">
             <Close />
