@@ -1,31 +1,36 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { BookOutlined } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
+import { Menu } from '@material-ui/icons';
 
-const useStyles = makeStyles(() => ({
-    root: {
-        flexGrow: 1,
-    },
-    title: {
-        flexGrow: 1,
-    },
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
-export default ({ btnText }) => {
-    const { root, title } = useStyles();
+export default function ButtonAppBar() {
+  const classes = useStyles();
 
-    return (
-        <div className={root}>
-            <AppBar position='static' >
-                <Toolbar >
-                    <IconButton edge='start' color='inherit' aria-label='menu' >
-                        <BookOutlined />
-                    </IconButton>
-                    <Typography variant='h6' className={title} >My Diary</Typography>
-                    <Button color='inherit' >{btnText}</Button>
-                </Toolbar>
-            </AppBar>
-        </div>
-    )
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <Menu />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            News
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
