@@ -8,9 +8,10 @@
   },
   "scripts": {
     "dev-server-client": "concurrently 'cd server && npm run dev' 'cd client && npm start'",
-    "preinstall": "cd client && npm i",
-    "postinstall": "cd server && npm i",
-    "prestart": "serve -s client/build",
+    "install:client": "cd client && npm i",
+    "install:server": "cd server && npm i",
+    "prestart": "cd client && serve -s build",
+    "install:app": "npm run install:client && npm run install:server",
     "start": "cd server && npm start",
     "test": "cd server && npm test",
     "pretest": "cd client && npm test",
@@ -38,8 +39,5 @@
     "eslint-plugin-material-ui": "^1.0.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1"
-  },
-  "dependencies": {
-    "serve": "latest"
   }
 }
