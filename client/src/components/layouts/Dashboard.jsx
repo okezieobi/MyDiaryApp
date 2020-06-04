@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Hidden, withWidth, List, ListItem,
 } from '@material-ui/core';
-import MobileView from '../templates/DashboardSM';
-import DesktopView from '../templates/DashboardLG';
-import Card from '../templates/Card';
+import MobileView from '../templates/DashboardSM.jsx';
+import DesktopView from '../templates/DashboardLG.jsx';
+import Card from '../templates/Card.jsx';
 import dashboardImg from '../../svg/undraw_onboarding_o8mv.svg';
 
 const useStyles = makeStyles(() => ({

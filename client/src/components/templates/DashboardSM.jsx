@@ -10,10 +10,10 @@ import {
 import {
   Menu, ChevronLeft, ChevronRight, AccountCircle, Home, Close, Edit,
 } from '@material-ui/icons';
-import Modal from './Modal';
-import CardComponent from './Card';
- 
-  const drawerWidth = 240;
+import Modal from './Modal.jsx';
+import CardComponent from './Card.jsx';
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
