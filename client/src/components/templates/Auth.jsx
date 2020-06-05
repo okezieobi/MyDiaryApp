@@ -5,19 +5,22 @@ import {
   AppBar, Toolbar, Typography, Button,
 } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
   },
+  main: {
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
-function Header({ headerAction }) {
+function Header({ headerAction, mainAction }) {
   const classes = useStyles();
 
   return (
@@ -30,12 +33,16 @@ function Header({ headerAction }) {
           <Button color="inherit">{headerAction}</Button>
         </Toolbar>
       </AppBar>
+      <div className={classes.main}>
+        {mainAction}
+      </div>
     </div>
   );
 }
 
 Header.propTypes = {
   headerAction: PropTypes.string.isRequired,
+  mainAction: PropTypes.string.isRequired,
 };
 
 export default Header;

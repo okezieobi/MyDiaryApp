@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 import Auth from '../templates/Auth';
 import homeBG from '../../svg/artOne.svg';
 
@@ -18,7 +19,12 @@ export default function () {
 
   return (
     <div className={classes.root}>
-      <Auth headerAction="Login" />
+      <Auth
+        headerAction="Login"
+        mainAction={
+          <Button variant="contained" color="primary">Signup</Button>
+      }
+      />
     </div>
   );
 }
