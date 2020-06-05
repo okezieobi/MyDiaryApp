@@ -10,8 +10,8 @@ import {
 import {
   AccountCircle, Home, KeyboardArrowUp,
 } from '@material-ui/icons';
-import Modal from './Modal.jsx';
-import CardComponent from './Card.jsx';
+import Modal from './Modal';
+import CardComponent from './Card';
 
 const drawerWidth = 240;
 

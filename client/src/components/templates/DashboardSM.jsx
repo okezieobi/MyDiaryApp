@@ -10,8 +10,8 @@ import {
 import {
   Menu, ChevronLeft, ChevronRight, AccountCircle, Home, Close, Edit,
 } from '@material-ui/icons';
-import Modal from './Modal.jsx';
-import CardComponent from './Card.jsx';
+import Modal from './Modal';
+import CardComponent from './Card';
 
 const drawerWidth = 240;
 
@@ -159,9 +159,9 @@ function Dashboard({ content }) {
         <div className={classes.drawerHeader} />
         {content}
         <div className={classes.fab}>
-          <Fab variant="extended" >
-              <Edit />
-              <Modal childComponent={<CardComponent classAttr={classes.card} />} text='Create Entry' color="inherit" />
+          <Fab variant="extended">
+            <Edit />
+            <Modal childComponent={<CardComponent classAttr={classes.card} />} text="Create Entry" color="inherit" />
           </Fab>
         </div>
       </main>

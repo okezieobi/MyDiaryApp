@@ -26,7 +26,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "airbnb-base"
+      "airbnb",
+      "airbnb/hooks"
     ]
   },
   "browserslist": {
@@ -43,6 +44,12 @@
   },
   "proxy": "http://localhost:5000/",
   "devDependencies": {
-    "eslint-config-airbnb-base": "^14.1.0"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.0"
   }
 }

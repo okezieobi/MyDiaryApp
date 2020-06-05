@@ -57,7 +57,7 @@ function TransitionsModal({ text, color, childComponent }) {
 }
 
 TransitionsModal.propTypes = {
-  text: PropTypes.string.isRequired ?? PropTypes.shape,
+  text: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   childComponent: PropTypes.shape.isRequired,
 };
