@@ -5,13 +5,11 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   Drawer, CssBaseline, AppBar, Toolbar,
   Divider, List, IconButton, Typography,
-  ListItemIcon, ListItemText, ListItem, Fab,
+  ListItemIcon, ListItemText, ListItem,
 } from '@material-ui/core';
 import {
-  Menu, ChevronLeft, ChevronRight, AccountCircle, Home, Close, Edit,
+  Menu, ChevronLeft, ChevronRight, AccountCircle, Home, Close,
 } from '@material-ui/icons';
-import Modal from './Modal';
-import CardComponent from './Card';
 
 const drawerWidth = 240;
 
@@ -72,17 +70,6 @@ const useStyles = makeStyles((theme) => ({
   },
   headerSpace: {
     flexGrow: 1,
-  },
-  fab: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(3),
-  },
-  card: {
-    width: '75vw',
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
   },
 }));
 
@@ -158,12 +145,6 @@ function Dashboard({ content }) {
       >
         <div className={classes.drawerHeader} />
         {content}
-        <div className={classes.fab}>
-          <Fab variant="extended">
-            <Edit />
-            <Modal childComponent={<CardComponent classAttr={classes.card} />} text="Create Entry" color="inherit" />
-          </Fab>
-        </div>
       </main>
     </div>
   );
