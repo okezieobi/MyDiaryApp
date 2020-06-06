@@ -10,6 +10,8 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "clsx": "^1.1.1",
+    "formik": "^2.1.4",
+    "formik-material-ui": "^2.0.0-beta.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -28,6 +30,9 @@
       "react-app",
       "airbnb",
       "airbnb/hooks"
+    ],
+    "plugins": [
+      "material-ui"
     ]
   },
   "browserslist": {
@@ -49,6 +54,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-material-ui": "^1.0.1",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^2.5.0"
   }

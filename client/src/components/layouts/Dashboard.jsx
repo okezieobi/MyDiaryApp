@@ -39,26 +39,32 @@ function Dashboard() {
     <div className={classes.root}>
       <div className={classes.container}>
         <Hidden only={['lg', 'xl']}>
-          <MobileView content={[...new Array(7)]
-            .map((index) => (
-              <List>
-                <ListItem key={index}>
-                  <Card classAttr={classes.SMCard} button />
-                </ListItem>
-              </List>
-            ))}
+          <MobileView content={(
+            <List>
+              {
+              [...new Array(7)]
+                .map((index) => (
+                  <ListItem key={index}>
+                    <Card classAttr={classes.SMCard} button />
+                  </ListItem>
+                ))
+            }
+            </List>
+          )}
           />
         </Hidden>
         <Hidden only={['sm', 'xs', 'md']}>
           <DesktopView
-            content={[...new Array(7)]
-              .map((index) => (
-                <List>
-                  <ListItem key={index}>
-                    <Card classAttr={classes.LGCard} button />
-                  </ListItem>
-                </List>
-              ))}
+            content={(
+              <List>
+                {[...new Array(7)]
+                  .map((index) => (
+                    <ListItem key={index}>
+                      <Card classAttr={classes.SMCard} button />
+                    </ListItem>
+                  ))}
+              </List>
+            )}
           />
         </Hidden>
       </div>

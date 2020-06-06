@@ -59,7 +59,7 @@ function TransitionsModal({ text, color, childComponent }) {
 TransitionsModal.propTypes = {
   text: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  childComponent: PropTypes.shape.isRequired,
+  childComponent: PropTypes.element.isRequired,
 };
 
 export default TransitionsModal;

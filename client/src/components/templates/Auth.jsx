@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  AppBar, Toolbar, Typography, Button,
+  AppBar, Toolbar, Typography, Button, Container,
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -13,14 +13,14 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
   main: {
-    height: '100vh',
+    height: '90vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
 }));
 
-function Header({ headerAction, mainAction }) {
+function Auth({ headerAction, mainAction }) {
   const classes = useStyles();
 
   return (
@@ -33,16 +33,16 @@ function Header({ headerAction, mainAction }) {
           <Button color="inherit">{headerAction}</Button>
         </Toolbar>
       </AppBar>
-      <div className={classes.main}>
+      <Container className={classes.main}>
         {mainAction}
-      </div>
+      </Container>
     </div>
   );
 }
 
-Header.propTypes = {
+Auth.propTypes = {
   headerAction: PropTypes.string.isRequired,
-  mainAction: PropTypes.string.isRequired,
+  mainAction: PropTypes.element.isRequired,
 };
 
-export default Header;
+export default Auth;

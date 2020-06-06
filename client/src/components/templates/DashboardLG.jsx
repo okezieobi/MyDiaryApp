@@ -146,7 +146,7 @@ function Dashboard({ content }, { children, window }) {
 }
 
 Dashboard.propTypes = {
-  content: PropTypes.shape.isRequired,
+  content: PropTypes.element.isRequired,
 };
 
 export default Dashboard;

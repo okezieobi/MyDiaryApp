@@ -170,7 +170,7 @@ function Dashboard({ content }) {
 }
 
 Dashboard.propTypes = {
-  content: PropTypes.shape.isRequired,
+  content: PropTypes.element.isRequired,
 };
 
 export default Dashboard;
