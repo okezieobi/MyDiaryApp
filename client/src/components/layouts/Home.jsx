@@ -21,6 +21,9 @@ const useStyles = makeStyles(() => ({
   homeBtn: {
     width: '30%',
   },
+  homeGreeting: {
+    color: 'green',
+  },
 }));
 
 export default function () {
@@ -32,7 +35,7 @@ export default function () {
         headerAction="Login"
         mainAction={(
           <div className={classes.home}>
-            <Typography color="textPrimary">
+            <Typography variant="h6">
               Welcome to My Diary.
               A secure, reliable way to store your thoughts
             </Typography>
