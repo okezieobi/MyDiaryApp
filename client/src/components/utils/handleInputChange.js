@@ -1,1 +1,1 @@
-export default (event, setState) => setState(event.target.value);
+export default ({ target: { value } }, setState) => setState(value);

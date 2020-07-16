@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import Auth from '../templates/Auth';
+import BtnLink from '../templates/BtnLink';
 import homeBG from '../../svg/artOne.svg';
 
 const useStyles = makeStyles(() => ({
@@ -32,14 +33,14 @@ export default function () {
   return (
     <div className={classes.root}>
       <Auth
-        headerAction="Login"
+        headerAction="login"
         mainAction={(
           <div className={classes.home}>
             <Typography variant="h6">
               Welcome to My Diary.
               A secure, reliable way to store your thoughts
             </Typography>
-            <Button className={classes.homeBtn} variant="contained" color="primary">Signup</Button>
+            <BtnLink className={classes.homeBtn} to="/signup" variant="contained" color="primary" btnTxt="Signup" />
           </div>
         )}
       />

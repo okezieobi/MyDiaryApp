@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  AppBar, Toolbar, Typography, Button, Container,
+  AppBar, Toolbar, Typography, Container,
 } from '@material-ui/core';
+import BtnLink from './BtnLink';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,7 +31,7 @@ function Auth({ headerAction, mainAction }) {
           <Typography variant="h6" className={classes.title}>
             My Diary
           </Typography>
-          <Button color="inherit">{headerAction}</Button>
+          <BtnLink color="inherit" to={`/${headerAction}`} btnTxt={headerAction} />
         </Toolbar>
       </AppBar>
       <Container className={classes.main}>
