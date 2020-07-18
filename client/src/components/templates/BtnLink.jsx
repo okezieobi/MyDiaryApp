@@ -15,10 +15,16 @@ const ButtonLink = ({
 
 ButtonLink.propTypes = {
   btnTxt: PropTypes.string.isRequired,
-  variant: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  variant: PropTypes.string,
+  color: PropTypes.string,
   to: PropTypes.string.isRequired,
-  className: PropTypes.objectOf.isRequired,
+  className: PropTypes.string,
+};
+
+ButtonLink.defaultProps = {
+  color: 'inherit',
+  variant: 'text',
+  className: '',
 };
 
 export default ButtonLink;

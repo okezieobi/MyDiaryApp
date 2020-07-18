@@ -20,7 +20,7 @@ export default function () {
     <div className={classes.root}>
       <Auth
         headerAction="Signup"
-        mainAction={<Form />}
+        mainAction={<Form inputs={[{label: 'Username / Email'}]} />}
       />
     </div>
   );

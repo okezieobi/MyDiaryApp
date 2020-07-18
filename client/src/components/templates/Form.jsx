@@ -19,10 +19,10 @@ function FormFactory({ inputs, buttons }) {
     <form className={classes.root} noValidate autoComplete="off">
       <div>
         {
-              inputs.map(({ id, label, variant }) => (
-                <TextField id={id} label={label} variant={variant} />
-              ))
-          }
+          inputs.map(({ id, label, variant }) => (
+            <TextField id={id} label={label} variant={variant} />
+          ))
+        }
       </div>
       <ButtonGroup>
         {
@@ -39,3 +39,5 @@ FormFactory.propTypes = {
   inputs: PropTypes.arrayOf.isRequired,
   buttons: PropTypes.arrayOf.isRequired,
 };
+
+export default FormFactory;

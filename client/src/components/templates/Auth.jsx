@@ -31,7 +31,7 @@ function Auth({ headerAction, mainAction }) {
           <Typography variant="h6" className={classes.title}>
             My Diary
           </Typography>
-          <BtnLink color="inherit" to={`/${headerAction}`} btnTxt={headerAction} />
+          <BtnLink to={`/${headerAction}`} btnTxt={headerAction} />
         </Toolbar>
       </AppBar>
       <Container className={classes.main}>
